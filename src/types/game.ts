@@ -1,4 +1,5 @@
-export type RegionId = 'orman' | 'bataklk' | 'magara' | 'liman' | 'kale' | 'col' | 'void' | 'firtina' | 'atesgolu' | 'zaman';
+export type RegionId = 'orman' | 'bataklk' | 'magara' | 'liman' | 'kale' | 'col' | 'void' | 'firtina' | 'atesgolu' | 'zaman'
+  | 'golge' | 'tundra' | 'derin' | 'uzay' | 'zihin' | 'kaos' | 'kan' | 'sonsuz' | 'tanri' | 'omega';
 export type EnemyId = string;
 export type SpellId = string;
 export type EquipmentSlot = 'silah' | 'zirh' | 'yuzuk' | 'kolye';

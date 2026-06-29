@@ -37,12 +37,12 @@ Oyun verisi **localStorage**'da tutulur (`quantumrpg_save` key). Backend gerekme
 
 | Özellik | Detay |
 |---------|-------|
-| **Bölgeler** | 10 bölge (Kuantum Ormanı → Zamanın Kırığı) |
-| **Düşmanlar** | 60+ düşman — 5 normal + 1 boss/bölge |
+| **Bölgeler** | 20 bölge (Kuantum Ormanı lv1 → Evrenin Sonu lv95) |
+| **Düşmanlar** | 120 düşman — 5 normal + 1 boss/bölge |
 | **Büyüler** | 12 büyü — seviye atlandıkça açılır veya dükkândan satın alınır |
 | **Ekipman** | 12 ekipman — 4 slot (silah, zırh, yüzük, kolye) |
 | **İksirler** | 5 iksir türü — savaş içi kullanılabilir (can, mana, kalkan, hız, hasar) |
-| **Seviye** | 1-30+ seviye, XP sistemi, seviyeye göre stat artışı |
+| **Seviye** | 1-100 seviye, XP sistemi, seviyeye göre stat artışı |
 | **Ekonomi** | Quantum Coin — düşmanlardan düşer, dükkânda harcanır |
 | **Elementer** | Ateş, Buz, Şimşek, Void, Işık, Fiziksel |
 | **Savaş** | Sıra tabanlı: Saldır / Büyü / Savun / Eşya / Kaç |
@@ -54,24 +54,24 @@ Oyun verisi **localStorage**'da tutulur (`quantumrpg_save` key). Backend gerekme
 ## Where Things Live
 
 ```
-artifacts/quantumrpg/src/
+src/
 ├── App.tsx                    # Router + global GameProvider
 ├── index.css                  # Karanlık RPG teması (CSS değişkenleri)
-├── types/game.ts              # Tüm TypeScript tipleri
+├── types/game.ts              # Tüm TypeScript tipleri (20 RegionId dahil)
 ├── utils/
 │   └── elementStyles.ts       # Elementer renk/glow/badge yardımcı modülü
 ├── data/
-│   ├── enemies.ts             # 60+ düşman tanımı
+│   ├── enemies.ts             # 120 düşman (20 bölge × 6)
 │   ├── spells.ts              # 12 büyü tanımı (element alanı dahil)
 │   ├── equipment.ts           # 12 ekipman tanımı
-│   ├── regions.ts             # 10 bölge tanımı
+│   ├── regions.ts             # 20 bölge tanımı (sıralı açılış, lv1-lv95)
 │   ├── potions.ts             # 5 iksir tanımı
 │   └── changelogData.ts       # Güncelleme notları veri yapısı (kategorize, tip güvenli)
-├── store/gameStore.tsx        # Context API + useReducer + localStorage
+├── store/gameStore.tsx        # Context API + useReducer + localStorage (max lv100)
 ├── hooks/useGameState.ts      # Context hook
 ├── pages/
 │   ├── MainMenu.tsx           # Ana menü (Yeni Oyun / Devam / Kayıt Sil)
-│   ├── WorldMap.tsx           # Bölge haritası
+│   ├── WorldMap.tsx           # Bölge haritası (level kıyaslamalı kilit)
 │   ├── RegionPage.tsx         # Bölge düşman listesi
 │   ├── BattlePage.tsx         # Savaş ekranı (elementer badge dahil)
 │   ├── ShopPage.tsx           # Dükkan (büyü + ekipman + elementer badge)
@@ -83,8 +83,6 @@ artifacts/quantumrpg/src/
     ├── LevelUpModal.tsx       # Seviye atlama modal'ı (mobil landscape uyumlu)
     └── SpellUnlockModal.tsx   # Yeni büyü açılma modal'ı (mobil landscape uyumlu)
 ```
-
-Shared packages: `lib/api-spec/`, `lib/api-client-react/`, `lib/db/`
 
 ---
 
@@ -108,8 +106,10 @@ Shared packages: `lib/api-spec/`, `lib/api-client-react/`, `lib/db/`
 **XP & Seviye:**
 - `xpToNextLevel = level * 100 + (level - 1) * 50`
 - Seviye atlarken: +10 HP/Mana, +3 ATK, +2 DEF
+- Maksimum seviye: **100** (fazla XP sıfırlanır, xpToNextLevel = 0)
 - Çift seviyeler (2, 4, 6, 8...) → ücretsiz yeni büyü açılabilir
-- Belirli seviyelerde bölge kilidi açılır (requiredLevel her bölgede tanımlı)
+- Bölge kilitleri `player.level >= region.requiredLevel` ile kontrol edilir — sıralı açılış
+- Sıralı açılış zinciri: Orman(1)→Bataklık(5)→Mağara(9)→Liman(14)→Kale(19)→Çöl(24)→Void(29)→Fırtına(34)→Ateş(39)→Zaman(44)→Gölge(50)→Tundra(55)→Uçurum(60)→Yıldız(65)→Zihin(70)→Kaos(75)→Kan(80)→Kristal(85)→Tanrılar(90)→Omega(95)
 
 **Savaş:**
 - Oyuncu hızlıysa (speed > düşman speed) ilk hamle oyuncuda
@@ -201,9 +201,8 @@ HUD'daki ⚙️ butonu bir modal açar. Modal içerisinde:
 
 ## Pointers
 
-- Oyun verileri: `artifacts/quantumrpg/src/data/` klasöründe
-- Global state: `artifacts/quantumrpg/src/store/gameStore.tsx`
-- Tip tanımları: `artifacts/quantumrpg/src/types/game.ts`
-- Elementer stiller: `artifacts/quantumrpg/src/utils/elementStyles.ts`
-- Changelog verisi: `artifacts/quantumrpg/src/data/changelogData.ts`
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- Oyun verileri: `src/data/` klasöründe
+- Global state: `src/store/gameStore.tsx`
+- Tip tanımları: `src/types/game.ts`
+- Elementer stiller: `src/utils/elementStyles.ts`
+- Changelog verisi: `src/data/changelogData.ts`

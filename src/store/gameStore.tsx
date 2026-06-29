@@ -283,7 +283,7 @@ function gameReducer(state: GameState, action: Action): GameState {
         qs.weeklyProgress = updateQuestProgress(qs.weeklyProgress, 'boss_kills', 1);
       }
 
-      while (player.xp >= player.xpToNextLevel) {
+      while (player.xp >= player.xpToNextLevel && player.level < 100) {
         player.xp -= player.xpToNextLevel;
         player.level += 1;
         player.xpToNextLevel = player.level * 100 + (player.level - 1) * 50;
@@ -303,6 +303,12 @@ function gameReducer(state: GameState, action: Action): GameState {
             player.unlockedRegions.push(region.id as RegionId);
           }
         });
+      }
+      // Maksimum seviye 100 — fazla XP sıfırla
+      if (player.level >= 100) {
+        player.level = 100;
+        player.xp = 0;
+        player.xpToNextLevel = 0;
       }
 
       return { ...state, player, battle, questState: qs };
@@ -340,7 +346,7 @@ function gameReducer(state: GameState, action: Action): GameState {
       const player = deepClonePlayer(state);
       player.xp += quest.reward.xp;
       player.coins += quest.reward.coins;
-      while (player.xp >= player.xpToNextLevel) {
+      while (player.xp >= player.xpToNextLevel && player.level < 100) {
         player.xp -= player.xpToNextLevel;
         player.level += 1;
         player.xpToNextLevel = player.level * 100 + (player.level - 1) * 50;
@@ -360,6 +366,11 @@ function gameReducer(state: GameState, action: Action): GameState {
             player.unlockedRegions.push(region.id as RegionId);
           }
         });
+      }
+      if (player.level >= 100) {
+        player.level = 100;
+        player.xp = 0;
+        player.xpToNextLevel = 0;
       }
       return { ...state, player, questState: qs };
     }
