@@ -8,7 +8,7 @@ set -euo pipefail
 
 REPO_URL="https://TurkYoshi1905:${GITHUB_PAT}@github.com/TurkYoshi1905/quantumrpg.git"
 BRANCH="main"
-SOURCE_DIR="$(cd "$(dirname "$0")/artifacts/quantumrpg" && pwd)"
+SOURCE_DIR="$(cd "$(dirname "$0")" && pwd)"
 TMP_DIR="$(mktemp -d)"
 
 echo "📁 Geçici dizin oluşturuldu: $TMP_DIR"
@@ -202,20 +202,34 @@ npm run dev
 - Wouter (routing)
 EOF
 
-# ── 7. Git repo başlat ve push et ─────────────────────────────────────────────
-echo "🔧 Git repo başlatılıyor..."
-cd "$TMP_DIR"
-git init -b main
+# ── 7. Mevcut repo'yu klonla, dosyaları kopyala ve push et ───────────────────
+echo "🔧 Mevcut GitHub repo'su klonlanıyor..."
+CLONE_DIR="$(mktemp -d)"
+git clone "$REPO_URL" "$CLONE_DIR" 2>/dev/null || {
+  # İlk kez push — boş repo başlat
+  cd "$CLONE_DIR"
+  git init -b main
+}
+cd "$CLONE_DIR"
+
 git config user.email "bot@quantumrpg.app"
 git config user.name  "QuantumRPG Bot"
 
+# Mevcut içeriği temizle (.git hariç), yeni dosyaları kopyala
+find . -mindepth 1 -not -path './.git*' -delete
+cp -r "$TMP_DIR/." .
+
 git add -A
 COMMIT_MSG="chore: standalone build — src/public yapısı — $(date '+%Y-%m-%d %H:%M')"
-git commit -m "$COMMIT_MSG"
+git commit -m "$COMMIT_MSG" || { echo "⚠️  Değişiklik yok, push atlandı."; exit 0; }
 echo "✅ Commit: $COMMIT_MSG"
 
-echo "🚀 GitHub'a push ediliyor (force)..."
-git push --force "$REPO_URL" HEAD:"$BRANCH"
+echo "🚀 GitHub'a push ediliyor..."
+git push "$REPO_URL" "$BRANCH":"$BRANCH"
+
+# Klonlanan dizini temizle
+cd /
+rm -rf "$CLONE_DIR"
 
 # ── 8. Temizlik ────────────────────────────────────────────────────────────────
 cd /

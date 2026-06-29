@@ -11,7 +11,7 @@ export default function WorldMap() {
   const { state } = useGameState();
   const [, setLocation] = useLocation();
 
-  const isUnlocked = (regionId: string) => state.player.unlockedRegions.includes(regionId as any);
+  const isUnlocked = (requiredLevel: number) => state.player.level >= requiredLevel;
 
   return (
     <div className="min-h-screen bg-background pt-14 md:pt-20 pb-8 px-3 md:px-8">
@@ -34,7 +34,7 @@ export default function WorldMap() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
           {Object.values(regions).map((region, index) => {
-            const unlocked = isUnlocked(region.id);
+            const unlocked = isUnlocked(region.requiredLevel);
             const defeatedCount = region.enemies.reduce((acc, enemyId) => acc + (state.player.defeatedEnemies[enemyId] || 0), 0);
             const bossDefeated = state.player.defeatedEnemies[region.bossId || ''] > 0;
             const boss = region.bossId ? enemies[region.bossId] : null;

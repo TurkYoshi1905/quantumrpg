@@ -18,7 +18,7 @@ export default function RegionPage() {
     return <div className="text-white mt-20 text-center">Bölge bulunamadı.</div>;
   }
 
-  if (!state.player.unlockedRegions.includes(region.id)) {
+  if (state.player.level < region.requiredLevel) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
         <div className="text-6xl mb-4">🔒</div>

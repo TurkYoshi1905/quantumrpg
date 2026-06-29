@@ -32,7 +32,7 @@ export const regions: Record<string, Region> = {
     bossId: 'boss_magara'
   },
   'liman': {
-    id: 'liman',
+    id: 'liman', 
     name: 'Pas Limanı',
     description: 'Yüzyıl önce terk edilmiş çürük iskele ve batan gemilerin arasında tehlike bekliyor.',
     emoji: '⚓',

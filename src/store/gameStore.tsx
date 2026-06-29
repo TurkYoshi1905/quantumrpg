@@ -1,6 +1,7 @@
 import React, { createContext, useReducer, useEffect, ReactNode } from 'react';
 import { GameState, Enemy, Spell, RegionId, EquipmentSlot, QuestProgress } from '../types/game';
 import { INITIAL_STATE, makeFreshPlayer, makeFreshBattle, makeFreshQuestState, recalculateStats } from './constants';
+import { regions } from '../data/regions';
 import { equipment } from '../data/equipment';
 import { spells } from '../data/spells';
 import { potions } from '../data/potions';
@@ -296,9 +297,12 @@ function gameReducer(state: GameState, action: Action): GameState {
           defense: player.baseStats.defense + 2,
         };
         player.stats = recalculateStats(player);
-        if (player.level >= 5 && !player.unlockedRegions.includes('magara')) player.unlockedRegions.push('magara');
-        if (player.level >= 10 && !player.unlockedRegions.includes('kale')) player.unlockedRegions.push('kale');
-        if (player.level >= 15 && !player.unlockedRegions.includes('void')) player.unlockedRegions.push('void');
+        // Tüm bölgeleri seviyeye göre otomatik aç
+        Object.values(regions).forEach(region => {
+          if (player.level >= region.requiredLevel && !player.unlockedRegions.includes(region.id as RegionId)) {
+            player.unlockedRegions.push(region.id as RegionId);
+          }
+        });
       }
 
       return { ...state, player, battle, questState: qs };
@@ -350,9 +354,12 @@ function gameReducer(state: GameState, action: Action): GameState {
           defense: player.baseStats.defense + 2,
         };
         player.stats = recalculateStats(player);
-        if (player.level >= 5 && !player.unlockedRegions.includes('magara')) player.unlockedRegions.push('magara');
-        if (player.level >= 10 && !player.unlockedRegions.includes('kale')) player.unlockedRegions.push('kale');
-        if (player.level >= 15 && !player.unlockedRegions.includes('void')) player.unlockedRegions.push('void');
+        // Tüm bölgeleri seviyeye göre otomatik aç
+        Object.values(regions).forEach(region => {
+          if (player.level >= region.requiredLevel && !player.unlockedRegions.includes(region.id as RegionId)) {
+            player.unlockedRegions.push(region.id as RegionId);
+          }
+        });
       }
       return { ...state, player, questState: qs };
     }
@@ -520,6 +527,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
             if (!Array.isArray(parsed.player.knownSpells)) parsed.player.knownSpells = [];
             if (!Array.isArray(parsed.player.inventory)) parsed.player.inventory = [];
             if (!Array.isArray(parsed.player.unlockedRegions)) parsed.player.unlockedRegions = ['orman'];
+            // Eski kayıtlar için: seviyeye göre eksik bölgeleri backfill et
+            Object.values(regions).forEach(region => {
+              if (parsed.player.level >= region.requiredLevel &&
+                  !parsed.player.unlockedRegions.includes(region.id)) {
+                parsed.player.unlockedRegions.push(region.id);
+              }
+            });
             parsed.player.equippedItems = parsed.player.equippedItems ?? {};
             parsed.player.defeatedEnemies = parsed.player.defeatedEnemies ?? {};
             parsed.player.totalKills = parsed.player.totalKills ?? 0;
