@@ -6,12 +6,10 @@ Karanlık bir kuantum evreninde geçen tek oyunculu, sıra tabanlı 2D web RPG o
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/quantumrpg run dev` — oyun frontend'ini çalıştır (PORT env gerekli)
-- `pnpm --filter @workspace/api-server run dev` — API sunucusunu çalıştır (PORT env gerekli)
-- `pnpm run typecheck` — tüm paketlerde TypeScript kontrolü
-- `pnpm run build` — typecheck + tüm paketleri derle
-- `pnpm --filter @workspace/api-spec run codegen` — OpenAPI'den hook ve Zod şemaları üret
-- `pnpm --filter @workspace/db run push` — DB şema değişikliklerini uygula (sadece dev)
+- `npm run dev` — oyun frontend'ini çalıştır (port 5000)
+- `npm run build` — TypeScript kontrolü + Vite build
+- `npm run preview` — build çıktısını önizle
+- `bash github-sync.sh` — GitHub'a push et (GITHUB_PAT secret gerekli)
 
 Oyun verisi **localStorage**'da tutulur (`quantumrpg_save` key). Backend gerekmez.
 
@@ -19,17 +17,13 @@ Oyun verisi **localStorage**'da tutulur (`quantumrpg_save` key). Backend gerekme
 
 ## Stack
 
-- pnpm workspaces, Node.js 24, TypeScript 5.9
-- Frontend: React + Vite + Tailwind CSS v4
+- Node.js 20, TypeScript 5.9
+- Frontend: React 19 + Vite 7 + Tailwind CSS v4
 - Routing: Wouter
 - Animasyonlar: Framer Motion
 - İkonlar: Lucide React
 - Persistence: localStorage (backend yok, oyun verisi client-side)
-- API: Express 5 (mevcut — oyun için kullanılmıyor)
-- DB: PostgreSQL + Drizzle ORM (mevcut — oyun için kullanılmıyor)
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Build: Vite (ESM)
 
 ---
 
@@ -37,7 +31,7 @@ Oyun verisi **localStorage**'da tutulur (`quantumrpg_save` key). Backend gerekme
 
 | Özellik | Detay |
 |---------|-------|
-| **Bölgeler** | 20 bölge (Kuantum Ormanı lv1 → Evrenin Sonu lv95) |
+| **Bölgeler** | 20 bölge (Kuantum Ormanı lv1 → Evrenin Sonu lv100) |
 | **Düşmanlar** | 120 düşman — 5 normal + 1 boss/bölge |
 | **Büyüler** | 12 büyü — seviye atlandıkça açılır veya dükkândan satın alınır |
 | **Ekipman** | 12 ekipman — 4 slot (silah, zırh, yüzük, kolye) |
@@ -186,14 +180,44 @@ HUD'daki ⚙️ butonu bir modal açar. Modal içerisinde:
 
 ---
 
+## Boss Denge (Balance)
+
+Her bölgenin boss'u, o bölgedeki en yüksek HP'li normal düşmanın yaklaşık **2×** HP'ine sahiptir — savaş biraz daha uzun sürsün diye. Attack/defense/XP/coin da orantılı şekilde artırılmıştır.
+
+| Boss | HP | XP | Coin |
+|------|----|----|------|
+| Orman Dehası (lv5) | 260 | 400 | 95–175 |
+| Bataklık Anası (lv9) | 500 | 660 | 145–265 |
+| Kristal Ejder Ana (lv14) | 800 | 990 | 210–385 |
+| Batık Kaptan (lv19) | 1.100 | 1.320 | 280–505 |
+| Karanlık Kral (lv24) | 1.400 | 1.650 | 345–620 |
+| Çöl Firavunu (lv29) | 1.700 | 1.980 | 410–740 |
+| Büyük Yokluk (lv34) | 2.000 | 2.310 | 475–860 |
+| Gök Lordu (lv39) | 2.300 | 2.640 | 545–985 |
+| Gölün Tanrısı (lv44) | 2.600 | 2.975 | 610–1.105 |
+| Kronos'un Kırığı (lv50) | 2.900 | 3.370 | 690–1.245 |
+| Labirent Mimarı (lv55) | 3.200 | 3.700 | 755–1.370 |
+| Ebedi Kış Lordu (lv60) | 3.500 | 4.030 | 820–1.490 |
+| Uçurumun Tanrısı (lv65) | 3.800 | 4.360 | 885–1.610 |
+| Galaksi İmparatoru (lv70) | 4.100 | 4.690 | 950–1.730 |
+| Kolektif Bilinçdışı (lv75) | 4.400 | 5.020 | 1.020–1.860 |
+| İblis Kaos (lv80) | 4.700 | 5.350 | 1.085–1.990 |
+| Kan Tanrısı (lv85) | 5.000 | 5.680 | 1.150–2.115 |
+| Sonsuz Kristal Tanrısı (lv90) | 5.300 | 6.010 | 1.215–2.240 |
+| Unutulan Tanrı (lv95) | 5.600 | 6.340 | 1.285–2.370 |
+| **Omega — Evrenin Çöküşü (lv100)** | **20.000** | **10.000** | **2.500–5.000** |
+
+> Omega boss 20.000 HP ile multiplayer için tasarlanmıştır (4-5 oyuncu); şu an single-player.
+
+---
+
 ## Gotchas
 
-- `PORT` ve `BASE_PATH` env değişkenleri workflow tarafından sağlanır; elle çalıştırmaya çalışma.
+- Vite port **5000** olmalı, `server.allowedHosts: true` ile — webview proxy için zorunlu.
 - Wouter `base` prop'u `import.meta.env.BASE_URL.replace(/\/$/, '')` olmalı.
 - localStorage key: `quantumrpg_save` — save silmek için bu key'i temizle.
 - Yeni düşman/büyü/ekipman eklerken `types/game.ts` tiplerini güncelle.
 - TypeScript strict: tüm alanlar zorunlu tanımlanmış olmalı.
-- `pnpm dev` komutunu workspace root'ta çalıştırma — artifacts workflow üzerinden çalışır.
 - Yeni büyü eklenirse `elementStyles.ts`'deki `GameElement` tipini de güncelle.
 - Changelog'a yeni sürüm eklenirse `changelogData.ts` dosyasına üste yeni `ChangelogVersion` objesi ekle.
 
