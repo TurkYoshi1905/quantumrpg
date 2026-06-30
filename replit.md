@@ -42,7 +42,7 @@ Oyun verisi **localStorage**'da tutulur (`quantumrpg_save` key). Backend gerekme
 | **Seviye** | 1-100 seviye, XP sistemi, seviyeye göre stat artışı |
 | **Ekonomi** | Quantum Coin — düşmanlardan düşer, dükkânda harcanır |
 | **Elementer** | Ateş, Buz, Şimşek, Void, Işık, Fiziksel |
-| **Savaş** | Sıra tabanlı: Saldır / Büyü / Savun / Eşya / Kaç |
+| **Savaş** | Sıra tabanlı: Saldır / Büyü / Savun / Eşya / Kaç — tüm hamlelerde spam/çift tıklama kilidi |
 | **Görevler** | 3 günlük + 3 haftalık görev — XP & Coin ödülü, otomatik sıfırlama |
 | **İstatistikler** | Toplam öldürme, kaçış, en güçlü düşman — Karakter sayfasında |
 

@@ -23,6 +23,10 @@ export default function BattlePage() {
   const [panel, setPanel] = useState<ActionPanel>('main');
   const [earnedCoins, setEarnedCoins] = useState<number | null>(null);
 
+  // Spam / çift tıklama kilidi — dispatch sonrası React state güncellenmeden önce
+  // ikinci tıklamanın geçmesini engeller. Phase player_turn'e döndüğünde sıfırlanır.
+  const isActing = useRef(false);
+
   useEffect(() => {
     if (!battle.active || !enemy || enemy.id !== enemyId) {
       setLocation('/harita');
@@ -67,7 +71,13 @@ export default function BattlePage() {
     return () => clearTimeout(timer);
   }, [battle.phase, battle.active, enemy, battle.enemyHp, battle.enemyBurning, battle.enemyFrozen, battle.enemyStunned, player.stats.defense, dispatch]);
 
-  useEffect(() => { if (battle.phase !== 'player_turn') setPanel('main'); }, [battle.phase]);
+  useEffect(() => {
+    if (battle.phase === 'player_turn') {
+      isActing.current = false; // Sıra oyuncuya geldiğinde kilidi aç
+    } else {
+      setPanel('main');
+    }
+  }, [battle.phase]);
 
   // Zafer anında altını bir kez hesapla — ekranda gerçek miktar gösterilsin
   useEffect(() => {
@@ -83,7 +93,8 @@ export default function BattlePage() {
   if (!battle.active || !enemy) return null;
 
   const handleAttack = () => {
-    if (battle.phase !== 'player_turn') return;
+    if (battle.phase !== 'player_turn' || isActing.current) return;
+    isActing.current = true;
     const variance = 0.75 + Math.random() * 0.5;
     const baseAtk = Math.floor(player.stats.attack * variance);
     const defReduction = Math.floor(enemy.stats.defense * 0.4);
@@ -93,7 +104,7 @@ export default function BattlePage() {
   };
 
   const handleSpell = (spellId: string) => {
-    if (battle.phase !== 'player_turn') return;
+    if (battle.phase !== 'player_turn' || isActing.current) return;
     const spell = spells[spellId];
     if (!spell || battle.playerMana < spell.manaCost) return;
     const spPower = player.stats.spellPower ?? 10;
@@ -115,23 +126,27 @@ export default function BattlePage() {
       }
     } else if (spell.effect === 'heal') { log += `Kendini ${spell.healAmount} can iyileştirdin.`; }
     else if (spell.effect === 'shield') { log += `Kendini kalkanla korudun!`; }
+    isActing.current = true;
     dispatch({ type: 'CAST_SPELL', spell, damage: finalDmg, log, effectApplies, stunApplies });
     setPanel('main');
   };
 
   const handleUsePotion = (potionId: string) => {
-    if (battle.phase !== 'player_turn') return;
+    if (battle.phase !== 'player_turn' || isActing.current) return;
     if ((player.potions[potionId] || 0) <= 0) return;
+    isActing.current = true;
     dispatch({ type: 'USE_POTION', potionId });
   };
 
   const handleDefend = () => {
-    if (battle.phase !== 'player_turn') return;
+    if (battle.phase !== 'player_turn' || isActing.current) return;
+    isActing.current = true;
     dispatch({ type: 'DEFEND', log: 'Savunma pozisyonu aldın.' });
   };
 
   const handleFlee = () => {
-    if (battle.phase !== 'player_turn') return;
+    if (battle.phase !== 'player_turn' || isActing.current) return;
+    isActing.current = true;
     const success = Math.random() > 0.6;
     dispatch({ type: 'FLEE', success, log: success ? 'Başarıyla kaçtın!' : 'Kaçmayı başaramadın!' });
     if (success) setTimeout(() => setLocation('/harita'), 1500);
