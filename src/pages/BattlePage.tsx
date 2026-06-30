@@ -328,10 +328,9 @@ export default function BattlePage() {
   // ── HP bar ───────────────────────────────────────────────────────────────────
   const HpBar = ({ pct, colorClass }: { pct: number; colorClass: string }) => (
     <div className="h-full w-full bg-white/10 rounded-full overflow-hidden">
-      <motion.div
+      <div
         className={`h-full bg-gradient-to-r ${colorClass} rounded-full`}
-        animate={{ width: `${Math.max(0, pct)}%` }}
-        transition={{ duration: 0.35, ease: 'easeOut' }}
+        style={{ width: `${Math.max(0, pct)}%`, transition: 'width 0.35s ease-out' }}
       />
     </div>
   );

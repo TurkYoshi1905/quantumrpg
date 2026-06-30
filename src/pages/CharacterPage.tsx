@@ -102,11 +102,9 @@ export default function CharacterPage() {
                       <span>{player.xp} / {player.xpToNextLevel}</span>
                     </div>
                     <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                      <motion.div
+                      <div
                         className="h-full bg-primary rounded-full"
-                        initial={{ width: 0 }}
-                        animate={{ width: `${xpPercent}%` }}
-                        transition={{ duration: 0.6, ease: 'easeOut' }}
+                        style={{ width: `${xpPercent}%`, transition: 'width 0.6s ease-out' }}
                       />
                     </div>
                   </div>

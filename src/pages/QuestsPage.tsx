@@ -97,13 +97,11 @@ function QuestCard({ qp, onClaim, type, index }: QuestCardProps) {
             <span>{Math.round(pct)}%</span>
           </div>
           <div className="h-1.5 bg-black/40 border border-white/5 rounded-full overflow-hidden">
-            <motion.div
+            <div
               className={`h-full rounded-full ${
                 qp.claimed ? 'bg-green-500' : qp.completed ? 'bg-yellow-500' : type === 'weekly' ? 'bg-purple-500' : 'bg-primary'
               }`}
-              initial={false}
-              animate={{ width: `${pct}%` }}
-              transition={{ duration: 0.5 }}
+              style={{ width: `${pct}%`, transition: 'width 0.5s ease-out' }}
             />
           </div>
         </div>
@@ -190,11 +188,9 @@ export default function QuestsPage() {
             </div>
 
             <div className="h-1 bg-black/30 border border-white/5 rounded-full overflow-hidden mb-5">
-              <motion.div
+              <div
                 className="h-full bg-primary rounded-full"
-                initial={false}
-                animate={{ width: `${questState.dailyProgress.length > 0 ? (completedDaily / questState.dailyProgress.length) * 100 : 0}%` }}
-                transition={{ duration: 0.5 }}
+                style={{ width: `${questState.dailyProgress.length > 0 ? (completedDaily / questState.dailyProgress.length) * 100 : 0}%`, transition: 'width 0.5s ease-out' }}
               />
             </div>
 
@@ -235,11 +231,9 @@ export default function QuestsPage() {
             </div>
 
             <div className="h-1 bg-black/30 border border-white/5 rounded-full overflow-hidden mb-5">
-              <motion.div
+              <div
                 className="h-full bg-purple-500 rounded-full"
-                initial={false}
-                animate={{ width: `${questState.weeklyProgress.length > 0 ? (completedWeekly / questState.weeklyProgress.length) * 100 : 0}%` }}
-                transition={{ duration: 0.5 }}
+                style={{ width: `${questState.weeklyProgress.length > 0 ? (completedWeekly / questState.weeklyProgress.length) * 100 : 0}%`, transition: 'width 0.5s ease-out' }}
               />
             </div>
 
