@@ -70,7 +70,7 @@ export function HUD() {
           <div className="flex items-center gap-1.5 min-w-0">
             <span className={`shrink-0 ${isMobile ? 'text-xl' : 'text-2xl'}`} role="img" aria-label="avatar">🧑‍🚀</span>
             <div className="min-w-0">
-              <div className={`font-serif font-bold text-foreground truncate ${isMobile ? 'text-sm' : ''}`}>{player.name}</div>
+              <div className={`font-sans font-bold text-foreground truncate ${isMobile ? 'text-sm' : ''}`}>{player.name}</div>
               <div className={`text-muted-foreground font-mono leading-none ${isMobile ? 'text-[9px]' : 'text-xs'}`}>Seviye {player.level}</div>
             </div>
           </div>

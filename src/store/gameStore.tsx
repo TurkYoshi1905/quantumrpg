@@ -459,6 +459,7 @@ function gameReducer(state: GameState, action: Action): GameState {
           battle.log.push(`${potion.emoji} ${potion.name} kullandın — ${potion.value} tur %50 fazla hasar!`);
           break;
       }
+      battle.phase = 'enemy_turn';
       return { ...state, player, battle };
     }
 
