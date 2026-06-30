@@ -79,10 +79,11 @@ export function LevelUpModal() {
                   {/* Right column: stats + button */}
                   <div className="relative z-10 flex flex-col justify-center px-5 py-4 flex-1 overflow-y-auto">
                     <div className="space-y-2 mb-4 bg-black/40 p-3 rounded-xl border border-white/10">
-                      <StatRow label="Maks HP"  value="+10" color="text-green-400" />
-                      <StatRow label="Maks Mana" value="+10" color="text-blue-400" />
-                      <StatRow label="Saldırı"  value="+3"  color="text-orange-400" />
-                      <StatRow label="Savunma"  value="+2"  color="text-cyan-400" />
+                      <StatRow label="Maks HP"    value="+10" color="text-green-400" />
+                      <StatRow label="Maks Mana"  value="+10" color="text-blue-400" />
+                      <StatRow label="Saldırı"    value="+3"  color="text-orange-400" />
+                      <StatRow label="Savunma"    value="+2"  color="text-cyan-400" />
+                      <StatRow label="✨ Büyü Gücü" value="+2"  color="text-purple-400" />
                     </div>
                     <button
                       onClick={handleClose}
@@ -102,10 +103,11 @@ export function LevelUpModal() {
                   <p className="text-xl font-mono text-white mb-6">Seviye {player.level}</p>
 
                   <div className="space-y-3 mb-6 text-left bg-black/40 p-4 rounded-xl border border-white/10">
-                    <StatRow label="Maks HP"   value="+10" color="text-green-400" />
-                    <StatRow label="Maks Mana" value="+10" color="text-blue-400" />
-                    <StatRow label="Saldırı"   value="+3"  color="text-orange-400" />
-                    <StatRow label="Savunma"   value="+2"  color="text-cyan-400" />
+                    <StatRow label="Maks HP"      value="+10" color="text-green-400" />
+                    <StatRow label="Maks Mana"   value="+10" color="text-blue-400" />
+                    <StatRow label="Saldırı"     value="+3"  color="text-orange-400" />
+                    <StatRow label="Savunma"     value="+2"  color="text-cyan-400" />
+                    <StatRow label="✨ Büyü Gücü" value="+2"  color="text-purple-400" />
                   </div>
 
                   <button
