@@ -8,6 +8,37 @@ export type PotionEffect = 'heal_hp' | 'heal_mana' | 'shield_charges' | 'speed_b
 export type BattlePhase = 'idle' | 'player_turn' | 'enemy_turn' | 'victory' | 'defeat' | 'animating';
 export type QuestRequirementType = 'kills' | 'escapes' | 'boss_kills';
 
+export interface PlayerTitle {
+  title: string;
+  emoji: string;
+  color: string;
+  glowColor: string;
+  minLevel: number;
+  maxLevel: number;
+  milestoneCoins: number;
+}
+
+export const PLAYER_TITLES: PlayerTitle[] = [
+  { title: 'Gezgin',        emoji: '🚶',  color: 'text-slate-400',   glowColor: 'shadow-slate-400/20',   minLevel: 1,   maxLevel: 9,   milestoneCoins: 0     },
+  { title: 'Acemi Savaşçı', emoji: '⚔️',  color: 'text-green-400',   glowColor: 'shadow-green-400/30',   minLevel: 10,  maxLevel: 19,  milestoneCoins: 500   },
+  { title: 'Kaşif',         emoji: '🗡️',  color: 'text-teal-400',    glowColor: 'shadow-teal-400/30',    minLevel: 20,  maxLevel: 29,  milestoneCoins: 1000  },
+  { title: 'Savaşçı',       emoji: '🛡️',  color: 'text-blue-400',    glowColor: 'shadow-blue-400/30',    minLevel: 30,  maxLevel: 39,  milestoneCoins: 1500  },
+  { title: 'Şampiyon',      emoji: '🏹',  color: 'text-orange-400',  glowColor: 'shadow-orange-400/30',  minLevel: 40,  maxLevel: 49,  milestoneCoins: 2000  },
+  { title: 'Usta',          emoji: '🔮',  color: 'text-indigo-400',  glowColor: 'shadow-indigo-400/30',  minLevel: 50,  maxLevel: 59,  milestoneCoins: 3000  },
+  { title: 'Efsane',        emoji: '🌟',  color: 'text-yellow-400',  glowColor: 'shadow-yellow-400/30',  minLevel: 60,  maxLevel: 69,  milestoneCoins: 4000  },
+  { title: 'Titan',         emoji: '⚡',  color: 'text-cyan-300',    glowColor: 'shadow-cyan-300/30',    minLevel: 70,  maxLevel: 79,  milestoneCoins: 5000  },
+  { title: 'Yarı-Tanrı',    emoji: '🌌',  color: 'text-purple-400',  glowColor: 'shadow-purple-400/30',  minLevel: 80,  maxLevel: 89,  milestoneCoins: 7500  },
+  { title: 'Tanrı',         emoji: '💫',  color: 'text-amber-300',   glowColor: 'shadow-amber-300/30',   minLevel: 90,  maxLevel: 99,  milestoneCoins: 10000 },
+  { title: 'Omega',         emoji: '💥',  color: 'text-violet-300',  glowColor: 'shadow-violet-300/40',  minLevel: 100, maxLevel: 100, milestoneCoins: 20000 },
+];
+
+export function getPlayerTitle(level: number): PlayerTitle {
+  for (let i = PLAYER_TITLES.length - 1; i >= 0; i--) {
+    if (level >= PLAYER_TITLES[i].minLevel) return PLAYER_TITLES[i];
+  }
+  return PLAYER_TITLES[0];
+}
+
 export interface Stats {
   hp: number;
   maxHp: number;
@@ -105,6 +136,7 @@ export interface PlayerState {
   baseStats: Stats;
   coins: number;
   knownSpells: SpellId[];
+  equippedSpells: SpellId[];   // max 10, shown in battle
   equippedItems: Partial<Record<EquipmentSlot, string>>;
   inventory: string[];
   potions: Record<string, number>;

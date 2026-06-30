@@ -33,9 +33,11 @@ Oyun verisi **localStorage**'da tutulur (`quantumrpg_save` key). Backend gerekme
 |---------|-------|
 | **Bölgeler** | 20 bölge (Kuantum Ormanı lv1 → Evrenin Sonu lv100) |
 | **Düşmanlar** | 120 düşman — 5 normal + 1 boss/bölge |
-| **Büyüler** | 12 büyü — seviye atlandıkça açılır veya dükkândan satın alınır |
-| **Ekipman** | 12 ekipman — 4 slot (silah, zırh, yüzük, kolye) |
-| **İksirler** | 5 iksir türü — savaş içi kullanılabilir (can, mana, kalkan, hız, hasar) |
+| **Büyüler** | 22 büyü — seviye atlandıkça açılır veya dükkândan satın alınır |
+| **Büyü Yükü** | Savaşta maks 10 slot; karakter sayfasından ekle/çıkar/sıra değiştir |
+| **Ünvan Sistemi** | Her 10 seviyede yeni ünvan + altın milestone ödülü (500→20.000) |
+| **Ekipman** | 52 ekipman — 4 slot (silah, zırh, yüzük, kolye) |
+| **İksirler** | 15 iksir türü — temel / orta / nadir tier; savaş içi kullanılabilir |
 | **Seviye** | 1-100 seviye, XP sistemi, seviyeye göre stat artışı |
 | **Ekonomi** | Quantum Coin — düşmanlardan düşer, dükkânda harcanır |
 | **Elementer** | Ateş, Buz, Şimşek, Void, Işık, Fiziksel |

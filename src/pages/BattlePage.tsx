@@ -215,7 +215,7 @@ export default function BattlePage() {
             <Sword size={compact ? 18 : 22} className="text-orange-400" />
             <span className={`font-bold ${compact ? 'text-xs' : 'text-sm'}`}>Saldır</span>
           </button>
-          <button onClick={() => setPanel('spells')} disabled={!isPlayerTurn || player.knownSpells.length === 0}
+          <button onClick={() => setPanel('spells')} disabled={!isPlayerTurn || (player.equippedSpells?.length ?? 0) === 0}
             className={`bg-card border border-border hover:border-purple-400/50 hover:bg-purple-400/10 rounded-xl flex flex-col items-center justify-center gap-1 transition-all disabled:opacity-40 disabled:cursor-not-allowed ${compact ? 'py-2' : 'py-3'}`}>
             <Zap size={compact ? 18 : 22} className="text-purple-400" />
             <span className={`font-bold ${compact ? 'text-xs' : 'text-sm'}`}>Büyüler</span>
@@ -247,7 +247,7 @@ export default function BattlePage() {
             <button onClick={() => setPanel('main')} className="text-xs text-muted-foreground hover:text-white px-2 py-0.5 rounded bg-white/5">← Geri</button>
           </div>
           <div className="flex-1 overflow-y-auto p-2 space-y-1.5">
-            {player.knownSpells.map(spellId => {
+            {(player.equippedSpells ?? []).map(spellId => {
               const spell = spells[spellId];
               if (!spell) return null;
               const canCast = battle.playerMana >= spell.manaCost;

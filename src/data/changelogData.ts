@@ -22,6 +22,64 @@ export const CATEGORY_META: Record<ChangelogCategory, { label: string; color: st
 };
 
 export const changelog: ChangelogVersion[] = [
+  // ── v0.0.4 ───────────────────────────────────────────────────────────────────
+  {
+    version: 'v0.0.4',
+    date: '29 Haziran 2026',
+    summary: 'Ünvan sistemi, büyü slot yükü, 10 yeni büyü, 15 yeni iksir, 40 yeni ekipman. En büyük içerik güncellemesi.',
+    entries: [
+      {
+        id: 'v4e1',
+        category: 'yenilik',
+        title: 'Ünvan Sistemi — Her 10 Seviyede Yeni Unvan + Altın Ödülü',
+        description: "11 kademeli ünvan sistemi eklendi: Gezgin (1-9), Acemi Savaşçı (10), Kaşif (20), Savaşçı (30), Şampiyon (40), Usta (50), Efsane (60), Titan (70), Yarı-Tanrı (80), Tanrı (90), Omega (100). Her milestone geçişinde otomatik altın ödülü: Sv.10'da 500, 20'de 1.000, 50'de 3.000, 100'de 20.000 altına kadar. Karakter sayfasında tüm tier ilerlemesi ve sonraki milestone bilgisi görüntülenir.",
+      },
+      {
+        id: 'v4e2',
+        category: 'yenilik',
+        title: 'Büyü Slot Sistemi — Savaşta En Fazla 10 Büyü',
+        description: 'Karakter sayfasına "Büyü Yükü" sekmesi eklendi. 10 numaralı slot sisteminde öğrenilen büyüler savaş yüküne atanabiliyor. Slot\'a tıkla → seç (altın çerçeve) → aşağıdan büyü ekle. İki dolu slota sırayla tıklayarak yer değiştirme yapılabiliyor. Her slot üzerindeki × butonu ile büyü çıkarılıyor. Savaşta artık sadece yüklenmiş büyüler gösterilmektedir; tüm öğrenilen büyüler değil.',
+      },
+      {
+        id: 'v4e3',
+        category: 'yenilik',
+        title: '10 Yeni Büyü — Orta ve Yüksek Seviye',
+        description: 'Gökyüzü Gürültüsü (şimşek, lv15), Void Yarığı (void, lv18), Buz Zinciri (buz/dondur %45, lv20), Güneş Patlaması (ışık 110 hasar, lv25), Arındırıcı Ateş (ateş/yanma %50, lv28), Karanlık Dalga (void/sersem, lv30), Büyük Şifa (150 can, lv35), Sonsuz Alev (ateş 120, lv35), Tanrısal Işık (ışık 140, lv40), Omega Darbesi (void 180, lv50). Toplam büyü sayısı 12 → 22\'ye yükseldi.',
+      },
+      {
+        id: 'v4e4',
+        category: 'yenilik',
+        title: '10 Yeni İksir — Orta ve Nadir Tier',
+        description: 'Can Şişesi (120 HP), Saf Mana İksiri (80 MP), Demir Kalkan (5 şarj), Titan Gücü (5 tur +%50 hasar), Şampiyon Hızı (5 tur çift hareket), Yaşam Özü (250 HP, nadir), Mana Kristali (200 MP, nadir), Efsane Kalkan (8 şarj, nadir), Tanrısal Darbe (8 tur +%50, nadir), Omega Hızı (8 tur çift, nadir). Toplam iksir sayısı 5 → 15\'e yükseldi.',
+      },
+      {
+        id: 'v4e5',
+        category: 'yenilik',
+        title: '40 Yeni Ekipman — Her Slot için 10 Yeni Parça',
+        description: 'Silah, Zırh, Yüzük, Kolye slotlarına her birine 10 yeni ekipman eklendi. Toplam ekipman sayısı 12 → 52\'ye yükseldi. Seviye 20\'den başlayıp 95\'e kadar uzanan yeni tier\'lar: Gece Bıçağı, Void Kılıcı, Yıldız Bıçağı, Alev Kılıcı, Fırtına Kılıcı, Kıyamet Bıçağı, Tanrısal Silah, Omega Kılıcı, Kaos Bıçağı, Evrenin Sonu (silah); benzer premium seriler diğer slotlar için de mevcut.',
+      },
+      {
+        id: 'v4e6',
+        category: 'geliştirme',
+        title: 'Karakter Sayfası Yeniden Tasarımı',
+        description: 'Karakter sayfası üç sekmeye bölündü: Büyü Yükü, Ekipman ve Envanter. Sol sütunda ünvan ilerleme şeridi, temel istatistikler ve savaş istatistikleri gösteriliyor. Ekipman sekmesine toplam bonus özeti eklendi. Envanter sekmesi artık her öğenin stat bonuslarını ve gerekli seviyeyi gösteriyor. "Kuşan / Çıkar" butonları her iki sekmede de mevcut.',
+      },
+      {
+        id: 'v4e7',
+        category: 'geliştirme',
+        title: 'Market — Ekipman Slot Filtresi',
+        description: 'Market\'in Ekipmanlar sekmesine slot filtresi eklendi: Tümü, Silah, Zırh, Yüzük, Kolye. Her kategori yanında mevcut ekipman sayısı gösterilmektedir. Artık 52 ekipman arasında kolayca arama yapılabilmektedir.',
+      },
+      {
+        id: 'v4e8',
+        category: 'teknik',
+        title: 'Kayıt Geçişi — equippedSpells Alanı',
+        description: 'v0.0.4 geçişinde eski kayıtlar için equippedSpells alanı otomatik olarak knownSpells\'ten ilk 10 büyü alınarak doldurulmaktadır. Yeni büyü öğrenildiğinde veya satın alındığında, 10 slot dolmamışsa otomatik olarak yükleniyor.',
+      },
+    ],
+  },
+
+  // ── v0.0.3 ───────────────────────────────────────────────────────────────────
   {
     version: 'v0.0.3',
     date: '29 Haziran 2026',
@@ -31,147 +89,91 @@ export const changelog: ChangelogVersion[] = [
         id: 'v3e1',
         category: 'yenilik',
         title: '10 Yeni Bölge — Seviye 50-100 Arası',
-        description: 'Gölge Labirenti, Ebedi Tundra, Derin Uçurum, Yıldız Mezarlığı, Zihin Sarayı, Kaos Düzlemi, Kan Ormanı, Sonsuz Kristal, Tanrıların Tepesi ve Evrenin Sonu bölgeleri eklendi. Her bölgenin kendine özgü teması, renk paleti ve lore\'u var.',
+        description: 'Gölge Labirenti, Ebedi Tundra, Derin Uçurum, Yıldız Mezarlığı, Zihin Sarayı, Kaos Düzlemi, Kan Ormanı, Sonsuz Kristal, Tanrıların Tepesi ve Evrenin Sonu bölgeleri eklendi.',
       },
       {
         id: 'v3e2',
         category: 'yenilik',
-        title: '60 Yeni Düşman — Yaratıcı İsimler & Element Zayıflıkları',
-        description: 'Her yeni bölgeye 5 normal + 1 boss olmak üzere toplamda 60 yeni düşman eklendi. Karanlık Yansıma, Labirent Mimarı, Ebedi Kış Lordu, Uçurumun Tanrısı, Galaksi İmparatoru, Kolektif Bilinçdışı, İblis Kaos, Kan Tanrısı, Sonsuz Kristal Tanrısı, Unutulan Tanrı ve Omega – Evrenin Çöküşü bu bölgelerin patronlarıdır.',
+        title: '60 Yeni Düşman',
+        description: 'Her yeni bölgeye 5 normal + 1 boss olmak üzere toplamda 60 yeni düşman eklendi.',
       },
       {
         id: 'v3e3',
         category: 'yenilik',
         title: 'Maksimum Seviye 100',
-        description: 'Oyunun maksimum seviyesi artık 100. Seviye 100\'e ulaşıldığında XP sıfırlanır ve "Maksimum Seviye" göstergesi aktif olur. Her seviye +10 HP/Mana, +3 ATK, +2 DEF kazandırır; seviye 100\'de oyuncu son derece güçlü olur.',
+        description: 'Oyunun maksimum seviyesi artık 100. Her seviye +10 HP/Mana, +3 ATK, +2 DEF kazandırır.',
       },
       {
         id: 'v3e4',
         category: 'geliştirme',
-        title: 'Sıralı Bölge Açılış Sistemi — Paralel Yollar Kaldırıldı',
-        description: 'Bölgeler artık tamamen sıralı açılıyor. Her bölgenin kilidi bir önceki bölgenin boss seviyesine göre belirleniyor: Orman→Bataklık(5)→Mağara(9)→Liman(14)→Kale(19)→Çöl(24)→Void(29)→Fırtına(34)→Ateş Gölü(39)→Zaman(44)→Gölge(50)→Tundra(55)→Uçurum(60)→Yıldız(65)→Zihin(70)→Kaos(75)→Kan(80)→Kristal(85)→Tanrılar(90)→Omega(95).',
+        title: 'Sıralı Bölge Açılış Sistemi',
+        description: 'Bölgeler tamamen sıralı açılıyor: Orman→Bataklık(5)→Mağara(9)→...→Omega(95).',
       },
       {
         id: 'v3e5',
         category: 'geliştirme',
         title: 'Tüm Düşman İstatistikleri Yeniden Dengelendi',
-        description: 'Mevcut 10 bölgedeki tüm düşmanların HP, ATK, DEF ve SPD değerleri seviye 1-50 arası tutarlı bir formüle göre yeniden hesaplandı. Yeni 10 bölgedeki düşmanlar seviye 51-100 aralığını kapsayacak şekilde ölçeklendirildi. Boss\'lar yaklaşık 3.5-4x normal düşman HP\'ine sahip.',
-      },
-      {
-        id: 'v3e6',
-        category: 'teknik',
-        title: 'RegionId Tipi Genişletildi',
-        description: 'TypeScript\'teki RegionId tipi 10 yeni bölge ID\'siyle güncellendi: golge, tundra, derin, uzay, zihin, kaos, kan, sonsuz, tanri, omega. Tüm tip kontrollerinden geçti.',
+        description: 'Boss\'lar yaklaşık 2× normal düşman HP\'ine sahip. Omega boss 20.000 HP ile oyunun son zorluğu.',
       },
     ],
   },
+
+  // ── v0.0.2 ───────────────────────────────────────────────────────────────────
   {
     version: 'v0.0.2',
     date: '29 Haziran 2026',
-    summary: 'Görev sistemi, savaş istatistikleri ve ana menü iyileştirmeleri. Oyun deneyimi bir sonraki seviyeye taşındı.',
+    summary: 'Görev sistemi, savaş istatistikleri ve ana menü iyileştirmeleri.',
     entries: [
       {
         id: 'v2e1',
         category: 'yenilik',
         title: 'Görev Sistemi — Günlük & Haftalık',
-        description: 'Oyuna günlük ve haftalık görev sistemi eklendi. Her gün 3 günlük, her hafta 3 haftalık görev otomatik olarak seçilir. Görevler tamamlandığında XP ve Quantum Coin ödülü kazanılır. Tamamlanan görevlerin yanında yeşil tik ve "Tamamlandı" etiketi görünür. Görevler her gün gece 00:00\'da, haftalık görevler her Pazartesi sıfırlanır.',
+        description: 'Her gün 3 günlük, her hafta 3 haftalık görev otomatik seçilir. Görevler tamamlandığında XP ve Altın ödülü kazanılır.',
       },
       {
         id: 'v2e2',
         category: 'yenilik',
-        title: 'Savaş İstatistikleri — Karakter Sayfası',
-        description: 'Karakter sayfasına "Savaş İstatistikleri" bölümü eklendi. Toplam öldürme sayısı, başarılı kaçış sayısı, benzersiz düşman sayısı, toplam galip sayısı ve en güçlü düşman bilgisi görüntülenmektedir.',
+        title: 'Savaş İstatistikleri',
+        description: 'Karakter sayfasına toplam öldürme, kaçış, benzersiz düşman ve en güçlü düşman bilgisi eklendi.',
       },
       {
         id: 'v2e3',
         category: 'yenilik',
         title: 'Ana Menüde Hızlı Eylem Çubuğu',
-        description: 'Kayıtlı oyun varken ana menüde oyuncu bilgi kartı ve beş hızlı eylem butonu görünür: Dinlen (10 Altın), Market, Karakter, Görevler ve Ayarlar. Oyuncu can/mana barları ve altın miktarı da ana menüde görüntülenir.',
-      },
-      {
-        id: 'v2e4',
-        category: 'yenilik',
-        title: 'Dünya Haritasında Ana Menüye Dönüş',
-        description: 'Dünya Haritası sayfasına "Ana Menü" geri dönüş butonu eklendi. Buton sağ üst köşede, başlığın yanında konumlanmaktadır.',
-      },
-      {
-        id: 'v2e5',
-        category: 'geliştirme',
-        title: 'HUD Navigasyonuna Görevler Butonu',
-        description: 'Üst bilgi çubuğuna 🎯 Görevler navigasyon butonu eklendi. Ayarlar modalına da Görevler hızlı erişim bağlantısı eklendi.',
+        description: 'Kayıtlı oyun varken hızlı Dinlen, Market, Karakter, Görevler ve Ayarlar butonları görünür.',
       },
       {
         id: 'v2e6',
         category: 'düzeltme',
-        title: 'Kaçış Sonrası Can/Mana Barı Donma Sorunu',
-        description: 'Savaş sırasında hasar alındıktan sonra kaçılınca can ve mana barlarının doğru değeri yansıtmaması sorunu giderildi. Kaçış başarılı olduğunda artık savaş içi HP/Mana değerleri kalıcı player state\'e senkronize ediliyor.',
-      },
-      {
-        id: 'v2e7',
-        category: 'düzeltme',
-        title: 'Sekme Değişiminde Can/Mana Animasyonunun Yeniden Oynanması',
-        description: 'Farklı sayfalara geçildiğinde can ve mana barlarının sıfırdan dolduğu görüntülenen animasyon hatası giderildi. Barlar artık yalnızca değer değişiminde animasyon gösteriyor.',
-      },
-      {
-        id: 'v2e8',
-        category: 'geliştirme',
-        title: 'HUD\'da Can/Mana Sayılarının Büyütülmesi',
-        description: 'Masaüstü görünümünde can ve mana değerleri (ör: 148/120) daha büyük ve okunaklı hale getirildi. Bar kalınlığı, font boyutu ve alan genişliği artırıldı.',
+        title: 'Kaçış Sonrası Can/Mana Senkron Sorunu',
+        description: 'Kaçış başarılı olduğunda savaş içi HP/Mana değerleri artık player state\'e senkronize ediliyor.',
       },
     ],
   },
+
+  // ── v0.0.1 ───────────────────────────────────────────────────────────────────
   {
     version: 'v0.0.1',
     date: '29 Haziran 2026',
-    summary: 'İlk resmi geliştirme sürümü. Arayüz kalitesi, mobil uyumluluk ve yeni sistem altyapıları bu sürümde teslim edilmiştir.',
+    summary: 'İlk resmi geliştirme sürümü. Arayüz kalitesi ve temel sistem altyapıları.',
     entries: [
       {
         id: 'e1',
         category: 'yenilik',
-        title: 'Elementer Tür Göstergesi — Market',
-        description: 'Quantum Marketi\'nde Büyüler sekmesinde listelenen her büyünün adının yanına elementer türü badge\'i eklendi. Her element (Ateş, Buz, Şimşek, Işık, Void, Fiziksel) kendi rengiyle ve hafif bir parlama (glow) efektiyle görüntülenmektedir.',
-      },
-      {
-        id: 'e2',
-        category: 'yenilik',
-        title: 'Elementer Tür Göstergesi — Savaş Büyü Paneli',
-        description: 'Savaş ekranındaki büyü seçim panelinde her büyünün adının sağında, markettekiyle tutarlı elementer tür badge\'i gösterilmektedir.',
-      },
-      {
-        id: 'e3',
-        category: 'düzeltme',
-        title: 'Mobil Yatay Ekran — Level Up Modal Taşma Sorunu',
-        description: 'Mobil cihazlarda yatay (landscape) modda seviye atlama panelinin dikey eksende taşması sorunu giderildi.',
-      },
-      {
-        id: 'e4',
-        category: 'düzeltme',
-        title: 'Mobil Yatay Ekran — Yeni Büyü Modal Taşma Sorunu',
-        description: 'Yeni büyü öğrenme ekranının mobil yatay modda ekrana sığmaması sorunu çözüldü.',
+        title: 'Elementer Tür Göstergesi',
+        description: 'Market ve savaş büyü panelinde her büyüye elementer tür badge\'i eklendi.',
       },
       {
         id: 'e5',
         category: 'yenilik',
-        title: 'Güncelleme Notları (Changelog) Sistemi',
-        description: 'Oyuna yeni bir Güncelleme Notları sayfası eklendi. Tüm sürümler, kategorilere ayrılmış girişlerle kronolojik olarak listelenmektedir.',
+        title: 'Güncelleme Notları Sistemi',
+        description: 'Tüm sürümler, kategorilere ayrılmış girişlerle kronolojik olarak listelenmektedir.',
       },
       {
         id: 'e6',
         category: 'yenilik',
-        title: 'Ayarlar Paneli ve Navigasyon Entegrasyonu',
-        description: 'Üst bar\'a Ayarlar butonu eklendi. Açılan modal üzerinden oyun ayarlarına ve Güncelleme Notları sayfasına erişim sağlanmaktadır.',
-      },
-      {
-        id: 'e7',
-        category: 'teknik',
-        title: 'Elementer Stil Yardımcı Modülü (elementStyles.ts)',
-        description: 'Tüm elementer renk, kenarlık, parlama ve etiket tanımlamaları merkezi bir yardımcı modülde toplandı.',
-      },
-      {
-        id: 'e8',
-        category: 'teknik',
-        title: 'Changelog Veri Altyapısı (changelogData.ts)',
-        description: 'Güncelleme notları için tip güvenli, kategorize edilmiş veri yapısı oluşturuldu.',
+        title: 'Ayarlar Paneli',
+        description: 'Üst bar\'a Ayarlar butonu ve modal eklendi.',
       },
     ],
   },

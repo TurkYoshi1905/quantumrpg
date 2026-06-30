@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useEffect, ReactNode } from 'react';
 import { GameState, Enemy, Spell, RegionId, EquipmentSlot, QuestProgress } from '../types/game';
-import { INITIAL_STATE, makeFreshPlayer, makeFreshBattle, makeFreshQuestState, recalculateStats } from './constants';
+import { INITIAL_STATE, makeFreshPlayer, makeFreshBattle, makeFreshQuestState, recalculateStats, MILESTONE_COINS } from './constants';
 import { regions } from '../data/regions';
 import { equipment } from '../data/equipment';
 import { spells } from '../data/spells';
@@ -8,6 +8,7 @@ import { potions } from '../data/potions';
 import { QUEST_MAP, getDailyQuestIds, getWeeklyQuestIds, getDailyResetTimestamp, getWeeklyResetTimestamp } from '../data/questData';
 
 const SAVE_KEY = 'quantumrpg_save';
+const MAX_EQUIPPED_SPELLS = 10;
 
 type Action =
   | { type: 'START_GAME'; name: string }
@@ -36,7 +37,12 @@ type Action =
   | { type: 'LEARN_FREE_SPELL'; spellId: string }
   | { type: 'REST_AT_INN' }
   | { type: 'CLAIM_QUEST_REWARD'; questId: string; questType: 'daily' | 'weekly' }
-  | { type: 'RESET_QUESTS'; resetDaily: boolean; resetWeekly: boolean };
+  | { type: 'RESET_QUESTS'; resetDaily: boolean; resetWeekly: boolean }
+  // Büyü yükü eylemleri
+  | { type: 'EQUIP_SPELL'; spellId: string }
+  | { type: 'UNEQUIP_SPELL_AT'; index: number }
+  | { type: 'SWAP_EQUIPPED_SPELLS'; indexA: number; indexB: number }
+  | { type: 'EQUIP_SPELL_AT'; spellId: string; index: number };
 
 function deepClonePlayer(state: GameState): GameState['player'] {
   return {
@@ -44,6 +50,7 @@ function deepClonePlayer(state: GameState): GameState['player'] {
     stats: { ...state.player.stats },
     baseStats: { ...state.player.baseStats },
     knownSpells: [...state.player.knownSpells],
+    equippedSpells: [...(state.player.equippedSpells ?? [])],
     equippedItems: { ...state.player.equippedItems },
     inventory: [...state.player.inventory],
     potions: { ...state.player.potions },
@@ -85,6 +92,33 @@ function updateQuestProgress(
     const newProgress = Math.min(qp.progress + amount, quest.requirement.count);
     return { ...qp, progress: newProgress, completed: newProgress >= quest.requirement.count };
   });
+}
+
+// Seviye atlarken milestone coin ödülünü ve bölge açılışını uygular
+function applyLevelUp(player: GameState['player']): GameState['player'] {
+  player.level += 1;
+  player.xpToNextLevel = player.level * 100 + (player.level - 1) * 50;
+  player.baseStats = {
+    ...player.baseStats,
+    maxHp: player.baseStats.maxHp + 10,
+    hp: player.baseStats.maxHp + 10,
+    maxMana: player.baseStats.maxMana + 10,
+    mana: player.baseStats.maxMana + 10,
+    attack: player.baseStats.attack + 3,
+    defense: player.baseStats.defense + 2,
+  };
+  player.stats = recalculateStats(player);
+  // Milestone coin ödülü
+  if (MILESTONE_COINS[player.level]) {
+    player.coins += MILESTONE_COINS[player.level];
+  }
+  // Seviyeye göre bölge aç
+  Object.values(regions).forEach(region => {
+    if (player.level >= region.requiredLevel && !player.unlockedRegions.includes(region.id as RegionId)) {
+      player.unlockedRegions.push(region.id as RegionId);
+    }
+  });
+  return player;
 }
 
 function gameReducer(state: GameState, action: Action): GameState {
@@ -253,7 +287,7 @@ function gameReducer(state: GameState, action: Action): GameState {
     }
 
     case 'BATTLE_VICTORY': {
-      const player = deepClonePlayer(state);
+      let player = deepClonePlayer(state);
       const battle = deepCloneBattle(state);
       battle.phase = 'victory';
       battle.log.push(action.log);
@@ -285,26 +319,8 @@ function gameReducer(state: GameState, action: Action): GameState {
 
       while (player.xp >= player.xpToNextLevel && player.level < 100) {
         player.xp -= player.xpToNextLevel;
-        player.level += 1;
-        player.xpToNextLevel = player.level * 100 + (player.level - 1) * 50;
-        player.baseStats = {
-          ...player.baseStats,
-          maxHp: player.baseStats.maxHp + 10,
-          hp: player.baseStats.maxHp + 10,
-          maxMana: player.baseStats.maxMana + 10,
-          mana: player.baseStats.maxMana + 10,
-          attack: player.baseStats.attack + 3,
-          defense: player.baseStats.defense + 2,
-        };
-        player.stats = recalculateStats(player);
-        // Tüm bölgeleri seviyeye göre otomatik aç
-        Object.values(regions).forEach(region => {
-          if (player.level >= region.requiredLevel && !player.unlockedRegions.includes(region.id as RegionId)) {
-            player.unlockedRegions.push(region.id as RegionId);
-          }
-        });
+        player = applyLevelUp(player);
       }
-      // Maksimum seviye 100 — fazla XP sıfırla
       if (player.level >= 100) {
         player.level = 100;
         player.xp = 0;
@@ -343,29 +359,12 @@ function gameReducer(state: GameState, action: Action): GameState {
       list[idx] = { ...list[idx], claimed: true };
       const quest = QUEST_MAP[action.questId];
       if (!quest) return state;
-      const player = deepClonePlayer(state);
+      let player = deepClonePlayer(state);
       player.xp += quest.reward.xp;
       player.coins += quest.reward.coins;
       while (player.xp >= player.xpToNextLevel && player.level < 100) {
         player.xp -= player.xpToNextLevel;
-        player.level += 1;
-        player.xpToNextLevel = player.level * 100 + (player.level - 1) * 50;
-        player.baseStats = {
-          ...player.baseStats,
-          maxHp: player.baseStats.maxHp + 10,
-          hp: player.baseStats.maxHp + 10,
-          maxMana: player.baseStats.maxMana + 10,
-          mana: player.baseStats.maxMana + 10,
-          attack: player.baseStats.attack + 3,
-          defense: player.baseStats.defense + 2,
-        };
-        player.stats = recalculateStats(player);
-        // Tüm bölgeleri seviyeye göre otomatik aç
-        Object.values(regions).forEach(region => {
-          if (player.level >= region.requiredLevel && !player.unlockedRegions.includes(region.id as RegionId)) {
-            player.unlockedRegions.push(region.id as RegionId);
-          }
-        });
+        player = applyLevelUp(player);
       }
       if (player.level >= 100) {
         player.level = 100;
@@ -398,6 +397,10 @@ function gameReducer(state: GameState, action: Action): GameState {
         const player = deepClonePlayer(state);
         player.coins -= spell.shopPrice;
         player.knownSpells.push(action.spellId);
+        // Boş slot varsa otomatik ekle
+        if (player.equippedSpells.length < MAX_EQUIPPED_SPELLS) {
+          player.equippedSpells.push(action.spellId);
+        }
         return { ...state, player };
       }
       return state;
@@ -480,6 +483,10 @@ function gameReducer(state: GameState, action: Action): GameState {
       if (!state.player.knownSpells.includes(action.spellId)) {
         const player = deepClonePlayer(state);
         player.knownSpells.push(action.spellId);
+        // Boş slot varsa otomatik ekle
+        if (player.equippedSpells.length < MAX_EQUIPPED_SPELLS) {
+          player.equippedSpells.push(action.spellId);
+        }
         return { ...state, player };
       }
       return state;
@@ -491,6 +498,54 @@ function gameReducer(state: GameState, action: Action): GameState {
       player.coins -= 10;
       player.stats.hp = player.stats.maxHp;
       player.stats.mana = player.stats.maxMana;
+      return { ...state, player };
+    }
+
+    // ── Büyü Yükü Eylemleri ────────────────────────────────────────────────
+    case 'EQUIP_SPELL': {
+      const player = deepClonePlayer(state);
+      if (player.equippedSpells.includes(action.spellId)) return state;
+      if (player.equippedSpells.length >= MAX_EQUIPPED_SPELLS) return state;
+      if (!player.knownSpells.includes(action.spellId)) return state;
+      player.equippedSpells.push(action.spellId);
+      return { ...state, player };
+    }
+
+    case 'UNEQUIP_SPELL_AT': {
+      const player = deepClonePlayer(state);
+      if (action.index < 0 || action.index >= player.equippedSpells.length) return state;
+      player.equippedSpells.splice(action.index, 1);
+      return { ...state, player };
+    }
+
+    case 'SWAP_EQUIPPED_SPELLS': {
+      const player = deepClonePlayer(state);
+      const { indexA, indexB } = action;
+      if (indexA < 0 || indexB < 0) return state;
+      const len = player.equippedSpells.length;
+      // Ensure arrays are big enough (pad with empty if needed for display)
+      if (indexA >= len || indexB >= len) return state;
+      const tmp = player.equippedSpells[indexA];
+      player.equippedSpells[indexA] = player.equippedSpells[indexB];
+      player.equippedSpells[indexB] = tmp;
+      return { ...state, player };
+    }
+
+    case 'EQUIP_SPELL_AT': {
+      const player = deepClonePlayer(state);
+      if (!player.knownSpells.includes(action.spellId)) return state;
+      // If spell is already equipped elsewhere, remove it first
+      const existingIdx = player.equippedSpells.indexOf(action.spellId);
+      if (existingIdx !== -1) {
+        player.equippedSpells.splice(existingIdx, 1);
+        // Adjust index if necessary
+        const adjustedIndex = action.index > existingIdx ? action.index - 1 : action.index;
+        player.equippedSpells.splice(adjustedIndex, 0, action.spellId);
+      } else if (action.index < player.equippedSpells.length) {
+        player.equippedSpells.splice(action.index, 1, action.spellId);
+      } else if (player.equippedSpells.length < MAX_EQUIPPED_SPELLS) {
+        player.equippedSpells.push(action.spellId);
+      }
       return { ...state, player };
     }
 
@@ -538,7 +593,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
             if (!Array.isArray(parsed.player.knownSpells)) parsed.player.knownSpells = [];
             if (!Array.isArray(parsed.player.inventory)) parsed.player.inventory = [];
             if (!Array.isArray(parsed.player.unlockedRegions)) parsed.player.unlockedRegions = ['orman'];
-            // Eski kayıtlar için: seviyeye göre eksik bölgeleri backfill et
+            // Eski kayıtlar için seviyeye göre bölge backfill
             Object.values(regions).forEach(region => {
               if (parsed.player.level >= region.requiredLevel &&
                   !parsed.player.unlockedRegions.includes(region.id)) {
@@ -550,6 +605,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
             parsed.player.totalKills = parsed.player.totalKills ?? 0;
             parsed.player.totalEscapes = parsed.player.totalEscapes ?? 0;
             parsed.player.strongestEnemy = parsed.player.strongestEnemy ?? null;
+            // v0.0.4 Geçiş: equippedSpells yoksa knownSpells'ten ilk 10'u al
+            if (!Array.isArray(parsed.player.equippedSpells)) {
+              parsed.player.equippedSpells = [...(parsed.player.knownSpells ?? [])].slice(0, MAX_EQUIPPED_SPELLS);
+            }
           }
           if (!parsed.questState) {
             parsed.questState = makeFreshQuestState();

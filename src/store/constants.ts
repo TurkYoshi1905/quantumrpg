@@ -15,6 +15,11 @@ export function makeFreshQuestState(): QuestState {
   };
 }
 
+export const MILESTONE_COINS: Record<number, number> = {
+  10: 500, 20: 1000, 30: 1500, 40: 2000, 50: 3000,
+  60: 4000, 70: 5000, 80: 7500, 90: 10000, 100: 20000,
+};
+
 export const INITIAL_PLAYER: PlayerState = {
   name: 'Gezgin',
   level: 1,
@@ -32,6 +37,7 @@ export const INITIAL_PLAYER: PlayerState = {
   },
   coins: 50,
   knownSpells: ['atestop'],
+  equippedSpells: ['atestop'],
   equippedItems: {},
   inventory: [],
   potions: {},
@@ -54,6 +60,7 @@ export function makeFreshPlayer(): PlayerState {
     baseStats: { hp: 100, maxHp: 100, mana: 60, maxMana: 60, attack: 15, defense: 8, speed: 10 },
     coins: 50,
     knownSpells: ['atestop'],
+    equippedSpells: ['atestop'],
     equippedItems: {},
     inventory: [],
     potions: {},
