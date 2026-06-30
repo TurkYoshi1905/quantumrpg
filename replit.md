@@ -100,6 +100,18 @@ artifacts/quantumrpg/src/
 
 ---
 
+## Yapılan Değişiklikler (Son Sürüm)
+
+| Alan | Değişiklik |
+|------|-----------|
+| **Font** | Cinzel tamamen kaldırıldı; tüm font (sans + serif) → **Inter** |
+| **İksir kiliti** | `USE_POTION` sonrası `battle.phase = 'enemy_turn'` eklendi — kilitlenme düzeltildi |
+| **HP/MP bar animasyonu** | `motion.div animate={{width}}` → CSS `transition: width` — artık sadece gerçek değer değişince oynar |
+| **Savaş HUD** | TurnIndicator, BuffBadges, HpBar, hit-flash efekti — premium yeniden tasarım |
+| **Karakter sayfası (PC)** | Başlıklar, stat değerleri, büyü slot etiketleri, tab butonları PC'de `md:` prefix ile büyütüldü |
+
+---
+
 ## Oyun Mekanik Detayları
 
 **XP & Seviye:**
