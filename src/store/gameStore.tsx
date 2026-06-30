@@ -106,6 +106,7 @@ function applyLevelUp(player: GameState['player']): GameState['player'] {
     mana: player.baseStats.maxMana + 10,
     attack: player.baseStats.attack + 3,
     defense: player.baseStats.defense + 2,
+    spellPower: (player.baseStats.spellPower ?? 10) + 2,
   };
   player.stats = recalculateStats(player);
   // Milestone coin ödülü
@@ -608,6 +609,17 @@ export function GameProvider({ children }: { children: ReactNode }) {
             // v0.0.4 Geçiş: equippedSpells yoksa knownSpells'ten ilk 10'u al
             if (!Array.isArray(parsed.player.equippedSpells)) {
               parsed.player.equippedSpells = [...(parsed.player.knownSpells ?? [])].slice(0, MAX_EQUIPPED_SPELLS);
+            }
+            // v0.0.5 Geçiş: spellPower yoksa sadece o alanı backfill et (hp/mana sıfırlamamak için)
+            if (parsed.player.baseStats && parsed.player.baseStats.spellPower == null) {
+              const baseSp = 10 + (parsed.player.level - 1) * 2;
+              parsed.player.baseStats.spellPower = baseSp;
+              let equipSp = 0;
+              Object.values(parsed.player.equippedItems ?? {}).forEach((itemId) => {
+                const it = equipment[itemId as string];
+                if (it?.statBonus?.spellPower) equipSp += it.statBonus.spellPower;
+              });
+              if (parsed.player.stats) parsed.player.stats.spellPower = baseSp + equipSp;
             }
           }
           if (!parsed.questState) {

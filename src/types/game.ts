@@ -47,6 +47,7 @@ export interface Stats {
   attack: number;
   defense: number;
   speed: number;
+  spellPower?: number;
 }
 
 export interface Enemy {

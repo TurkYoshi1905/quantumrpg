@@ -96,7 +96,8 @@ export default function BattlePage() {
     if (battle.phase !== 'player_turn') return;
     const spell = spells[spellId];
     if (!spell || battle.playerMana < spell.manaCost) return;
-    let finalDmg = spell.damage;
+    const spPower = player.stats.spellPower ?? 10;
+    let finalDmg = spell.damage + Math.floor(spPower * 0.5);
     let log = `${spell.name} büyüsünü kullandın! `;
     let effectApplies = false;
     let stunApplies = false;

@@ -35,8 +35,9 @@ Oyun verisi **localStorage**'da tutulur (`quantumrpg_save` key). Backend gerekme
 | **Düşmanlar** | 120 düşman — 5 normal + 1 boss/bölge |
 | **Büyüler** | 22 büyü — seviye atlandıkça açılır veya dükkândan satın alınır |
 | **Büyü Yükü** | Savaşta maks 10 slot; karakter sayfasından ekle/çıkar/sıra değiştir |
+| **Büyü Gücü** | Yeni stat (✨): her seviyede +2, ekipmanla yükseltilebilir; büyü hasarını ölçekler |
 | **Ünvan Sistemi** | Her 10 seviyede yeni ünvan + altın milestone ödülü (500→20.000) |
-| **Ekipman** | 52 ekipman — 4 slot (silah, zırh, yüzük, kolye) |
+| **Ekipman** | 58 ekipman — 4 slot (silah, zırh, yüzük, kolye); büyücü odaklı setler dahil |
 | **İksirler** | 15 iksir türü — temel / orta / nadir tier; savaş içi kullanılabilir |
 | **Seviye** | 1-100 seviye, XP sistemi, seviyeye göre stat artışı |
 | **Ekonomi** | Quantum Coin — düşmanlardan düşer, dükkânda harcanır |

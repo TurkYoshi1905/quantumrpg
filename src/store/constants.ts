@@ -28,12 +28,12 @@ export const INITIAL_PLAYER: PlayerState = {
   stats: {
     hp: 100, maxHp: 100,
     mana: 60, maxMana: 60,
-    attack: 15, defense: 8, speed: 10
+    attack: 15, defense: 8, speed: 10, spellPower: 10
   },
   baseStats: {
     hp: 100, maxHp: 100,
     mana: 60, maxMana: 60,
-    attack: 15, defense: 8, speed: 10
+    attack: 15, defense: 8, speed: 10, spellPower: 10
   },
   coins: 50,
   knownSpells: ['atestop'],
@@ -56,8 +56,8 @@ export function makeFreshPlayer(): PlayerState {
     level: 1,
     xp: 0,
     xpToNextLevel: 100,
-    stats: { hp: 100, maxHp: 100, mana: 60, maxMana: 60, attack: 15, defense: 8, speed: 10 },
-    baseStats: { hp: 100, maxHp: 100, mana: 60, maxMana: 60, attack: 15, defense: 8, speed: 10 },
+    stats: { hp: 100, maxHp: 100, mana: 60, maxMana: 60, attack: 15, defense: 8, speed: 10, spellPower: 10 },
+    baseStats: { hp: 100, maxHp: 100, mana: 60, maxMana: 60, attack: 15, defense: 8, speed: 10, spellPower: 10 },
     coins: 50,
     knownSpells: ['atestop'],
     equippedSpells: ['atestop'],
@@ -114,6 +114,7 @@ export function recalculateStats(player: PlayerState): Stats {
       if (bonus.attack) stats.attack += bonus.attack;
       if (bonus.defense) stats.defense += bonus.defense;
       if (bonus.speed) stats.speed += bonus.speed;
+      if (bonus.spellPower) stats.spellPower = (stats.spellPower ?? 10) + bonus.spellPower;
     }
   });
   if (stats.hp > stats.maxHp) stats.hp = stats.maxHp;

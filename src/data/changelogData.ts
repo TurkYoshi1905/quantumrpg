@@ -22,6 +22,38 @@ export const CATEGORY_META: Record<ChangelogCategory, { label: string; color: st
 };
 
 export const changelog: ChangelogVersion[] = [
+  // ── v0.0.5 ───────────────────────────────────────────────────────────────────
+  {
+    version: 'v0.0.5',
+    date: '30 Haziran 2026',
+    summary: "Büyü Gücü istatistiği eklendi. Büyüler artık sabit hasar vermez — Büyü Gücü'ne göre ölçeklenir. 6 yeni büyücü ekipmanı markette.",
+    entries: [
+      {
+        id: 'v5e1',
+        category: 'yenilik',
+        title: "Büyü Gücü (✨) — Yeni İstatistik",
+        description: "Karakter istatistiklerine Büyü Gücü eklendi. Başlangıç değeri 10, her seviyede +2 artar. Büyü Gücü ne kadar yüksekse büyüler o kadar fazla hasar verir.",
+      },
+      {
+        id: 'v5e2',
+        category: 'geliştirme',
+        title: "Büyü Hasarı Formülü — Büyü Gücü'ne Göre Ölçekleme",
+        description: "Büyü hasarı artık sabit değil. Formül: Büyü Taban Hasarı + (Büyü Gücü × 0,5). Büyü odaklı ekipman kullanarak fiziksel savaşçılardan farklı bir büyücü yapısı oluşturulabilir.",
+      },
+      {
+        id: 'v5e3',
+        category: 'yenilik',
+        title: "6 Yeni Büyücü Ekipmanı — Yüzük & Kolye",
+        description: "Markete Büyü Gücü odaklı 6 yeni ekipman eklendi: Büyücü Yüzüğü (lv8), Arkan Yüzük (lv30), Mistik Güç (lv60); Simyacı Kolyesi (lv12), Arkan Hazine (lv40), Efsane Büyü Kolyesi (lv75). Mevcut Mavi Gözyaşı ve Mana Kristali de artık Büyü Gücü veriyor.",
+      },
+      {
+        id: 'v5e4',
+        category: 'geliştirme',
+        title: "Büyü Gücü Karakter Sayfasında Görüntüleniyor",
+        description: "Temel İstatistikler bölümüne Büyü Gücü satırı eklendi. Ekipman bonusları arasında BG gösterimi de güncellendi.",
+      },
+    ],
+  },
   // ── v0.0.4 ───────────────────────────────────────────────────────────────────
   {
     version: 'v0.0.4',

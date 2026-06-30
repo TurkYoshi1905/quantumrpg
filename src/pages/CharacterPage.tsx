@@ -168,6 +168,7 @@ export default function CharacterPage() {
               <StatRow icon={<Sword size={14} className="text-orange-500" />} label="Saldırı" value={player.stats.attack} base={player.baseStats.attack} />
               <StatRow icon={<Shield size={14} className="text-blue-500" />} label="Savunma" value={player.stats.defense} base={player.baseStats.defense} />
               <StatRow icon={<Zap size={14} className="text-yellow-500" />} label="Hız" value={player.stats.speed} base={player.baseStats.speed} />
+              <StatRow icon={<span className="text-[14px]">✨</span>} label="Büyü Gücü" value={player.stats.spellPower ?? 10} base={player.baseStats.spellPower ?? 10} />
             </div>
           </div>
 
@@ -378,6 +379,7 @@ export default function CharacterPage() {
                           const b = equipment[id].statBonus;
                           if (b.attack) bonuses['ATK'] = (bonuses['ATK'] || 0) + b.attack;
                           if (b.defense) bonuses['DEF'] = (bonuses['DEF'] || 0) + b.defense;
+                          if (b.spellPower) bonuses['BG'] = (bonuses['BG'] || 0) + b.spellPower;
                           if (b.maxHp) bonuses['HP'] = (bonuses['HP'] || 0) + b.maxHp;
                           if (b.maxMana) bonuses['MP'] = (bonuses['MP'] || 0) + b.maxMana;
                           if (b.speed) bonuses['SPD'] = (bonuses['SPD'] || 0) + b.speed;
