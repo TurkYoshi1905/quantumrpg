@@ -245,7 +245,7 @@ export default function ShopPage() {
                             );
                           })()}
                         </div>
-                        <div className="flex flex-wrap gap-1.5 text-[10px] md:text-xs font-mono mt-0.5">
+                        <div className="flex flex-wrap gap-1.5 text-xs md:text-sm font-mono mt-0.5">
                           {spell.damage > 0 && <span className="text-orange-400 flex items-center gap-0.5"><Sword size={10}/>{spell.damage}</span>}
                           {spell.healAmount && <span className="text-green-400 flex items-center gap-0.5"><Heart size={10}/>{spell.healAmount}</span>}
                           <span className="text-blue-400 flex items-center gap-0.5"><Zap size={10}/>{spell.manaCost}MP</span>
@@ -321,7 +321,7 @@ export default function ShopPage() {
                           </div>
                         </div>
                         <p className="text-xs md:text-sm text-muted-foreground mb-2 leading-relaxed">{equip.description}</p>
-                        <div className="bg-black/30 rounded-lg px-3 py-2 border border-white/5 mb-3 flex-1 grid grid-cols-2 gap-1 text-[10px] md:text-xs">
+                        <div className="bg-black/30 rounded-lg px-3 py-2 border border-white/5 mb-3 flex-1 grid grid-cols-2 gap-1 text-xs md:text-sm">
                           {equip.statBonus.attack && <div className="flex items-center gap-1 text-orange-400"><Sword size={10}/> +{equip.statBonus.attack} ATK</div>}
                           {equip.statBonus.defense && <div className="flex items-center gap-1 text-blue-400"><Shield size={10}/> +{equip.statBonus.defense} DEF</div>}
                           {equip.statBonus.maxHp && <div className="flex items-center gap-1 text-green-400"><Heart size={10}/> +{equip.statBonus.maxHp} HP</div>}
@@ -348,8 +348,8 @@ export default function ShopPage() {
                           }).filter(x => x.d !== 0);
                           if (!diffs.length) return null;
                           return (
-                            <div className="bg-black/20 rounded-lg px-2.5 py-2 border border-white/5 mb-3 text-[9px] md:text-[10px]">
-                              <div className="text-muted-foreground/50 mb-1 text-[8px] md:text-[9px] uppercase tracking-wide font-semibold">
+                            <div className="bg-black/20 rounded-lg px-2.5 py-2 border border-white/5 mb-3 text-[10px] md:text-xs">
+                              <div className="text-muted-foreground/50 mb-1 text-[9px] md:text-[10px] uppercase tracking-wide font-semibold">
                                 {curItem.emoji} {curItem.name} ile karşılaştır
                               </div>
                               <div className="flex flex-wrap gap-x-2.5 gap-y-0.5">

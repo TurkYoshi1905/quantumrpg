@@ -1,28 +1,30 @@
 #!/usr/bin/env bash
 # QuantumRPG — GitHub Sync Script
 # Monorepo'dan bağımsız public/src yapısına dönüştürür ve GitHub'a push eder.
-# Kullanım: bash github-sync.sh
+# Kullanım: bash .migration-backup/github-sync.sh
 # GITHUB_PAT ortam değişkeni Replit Secrets üzerinden yüklenir.
 
 set -euo pipefail
 
 REPO_URL="https://TurkYoshi1905:${GITHUB_PAT}@github.com/TurkYoshi1905/quantumrpg.git"
 BRANCH="main"
-SOURCE_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+WORKSPACE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+SOURCE_DIR="$WORKSPACE_DIR/artifacts/quantumrpg"
 TMP_DIR="$(mktemp -d)"
 
 echo "📁 Geçici dizin oluşturuldu: $TMP_DIR"
+echo "📂 Kaynak dizin: $SOURCE_DIR"
 
 # ── 1. Kaynak dosyaları kopyala ────────────────────────────────────────────────
-WORKSPACE_DIR="$(cd "$(dirname "$0")" && pwd)"
 echo "📦 Oyun dosyaları kopyalanıyor..."
 cp -r "$SOURCE_DIR/src"              "$TMP_DIR/src"
 cp -r "$SOURCE_DIR/public"           "$TMP_DIR/public"
 cp    "$SOURCE_DIR/index.html"       "$TMP_DIR/index.html"
-cp    "$SOURCE_DIR/components.json"  "$TMP_DIR/components.json"
-cp    "$SOURCE_DIR/vercel.json"      "$TMP_DIR/vercel.json"
-cp    "$WORKSPACE_DIR/github-sync.sh" "$TMP_DIR/github-sync.sh"
-cp    "$WORKSPACE_DIR/replit.md"      "$TMP_DIR/replit.md"
+cp    "$SCRIPT_DIR/components.json"  "$TMP_DIR/components.json"
+cp    "$SCRIPT_DIR/vercel.json"      "$TMP_DIR/vercel.json"
+cp    "$SCRIPT_DIR/github-sync.sh"   "$TMP_DIR/github-sync.sh"
+cp    "$WORKSPACE_DIR/replit.md"     "$TMP_DIR/replit.md"
 
 # ── 2. Standalone package.json ─────────────────────────────────────────────────
 echo "📝 package.json yazılıyor..."
@@ -178,13 +180,16 @@ Karanlık bir kuantum evreninde geçen tek oyunculu, sıra tabanlı 2D web RPG o
 
 ## Özellikler
 
-- 🗺️ **4 Bölge** — Kuantum Ormanı, Kristal Mağarası, Karanlık Kale, Void Uzayı
-- 👾 **24 Düşman** — Her bölgede 5 normal + 1 boss
-- ✨ **12 Büyü** — Seviye ve Quantum Coin sistemi
-- ⚔️ **12 Ekipman** — 4 slot (silah, zırh, yüzük, kolye)
-- 📈 **Seviye sistemi** — 1-20+ seviye, XP ve stat artışı
+- 🗺️ **20 Bölge** — Kuantum Ormanı lv1 → Evrenin Sonu lv100
+- 👾 **120 Düşman** — Her bölgede 5 normal + 1 boss
+- ✨ **22 Büyü** — Seviye ve Quantum Coin sistemi
+- ⚔️ **58 Ekipman** — 4 slot (silah, zırh, yüzük, kolye)
+- 💊 **15 İksir** — Savaş içi kullanılabilir
+- 📈 **Seviye sistemi** — 1-100 seviye, XP ve stat artışı
 - 💰 **Ekonomi** — Quantum Coin ile dükkan sistemi
+- 📋 **Görevler** — Günlük & haftalık görev sistemi
 - 💾 **Kayıt** — localStorage ile otomatik kayıt
+- 📱 **PWA** — Tarayıcıya kurulabilir, çevrimdışı oynanabilir
 
 ## Kurulum
 
@@ -195,8 +200,8 @@ npm run dev
 
 ## Teknoloji
 
-- React 19 + Vite
-- TypeScript
+- React 19 + Vite 7
+- TypeScript 5.9
 - Tailwind CSS v4
 - Framer Motion
 - Wouter (routing)

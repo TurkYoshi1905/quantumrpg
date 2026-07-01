@@ -261,13 +261,13 @@ export default function CharacterPage() {
                               <X size={8} className="text-destructive" />
                             </button>
                             <div className="text-2xl md:text-3xl">{spell.emoji}</div>
-                            <div className="text-[10px] md:text-[13px] font-semibold leading-tight truncate w-full text-center px-1">{spell.name}</div>
-                            <div className="text-[9px] md:text-[11px] font-mono text-blue-400">{spell.manaCost}MP</div>
+                            <div className="text-[11px] md:text-sm font-semibold leading-tight truncate w-full text-center px-1">{spell.name}</div>
+                            <div className="text-[10px] md:text-xs font-mono text-blue-400">{spell.manaCost}MP</div>
                           </>
                         ) : (
                           <>
                             <Plus size={16} className="text-white/20" />
-                            <div className="text-[9px] md:text-[11px] text-muted-foreground/40">Boş</div>
+                            <div className="text-[10px] md:text-xs text-muted-foreground/40">Boş</div>
                           </>
                         )}
                       </div>

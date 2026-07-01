@@ -122,6 +122,9 @@ artifacts/quantumrpg/src/
 | **Market metin büyütme** | Tüm sekmelerde ürün adı text-base, açıklama text-sm, butonlar text-sm, emoji büyütüldü |
 | **Karakter sayfası büyü slotu** | Büyü adı text-[13px], mana text-[11px] yapıldı; okunabilirlik arttı |
 | **PWA / Çevrimdışı oyun** | public/sw.js service worker, manifest.json, index.html kaydı eklendi; tarayıcıya kurulabilir ve internetsiz oynanabilir |
+| **Market stat metinleri (PC)** | Ekipman kartlarındaki stat bonusları `text-xs md:text-sm` yapıldı; karşılaştırma bölümü de büyütüldü |
+| **Karakter büyü slotları (PC)** | Büyü adı `md:text-sm`, mana `md:text-xs` oldu; masaüstünde net okunabilir |
+| **+2 Büyü Gücü seviye atlama** | Her seviye atlandığında baseStats.spellPower +2 artar; LevelUpModal'da gösterilir |
 
 ---
 
