@@ -114,6 +114,11 @@ artifacts/quantumrpg/src/
 | **HP/MP bar animasyonu** | `HpBar` BattlePage dışına taşındı (remount önlendi) → CSS `transition: 0.5s` artık gerçekten çalışıyor |
 | **Tablet landscape metin** | Savaş landscape layout: `text-[9px]` → `text-[11px]`, HP bar height büyütüldü, portrait HP metinleri `text-xs` |
 | **Ekipman — mana+büyügücü** | Mana bonusu olan ama spellPower içermeyen 5 yüzük/kolye'ye `spellPower` eklendi |
+| **Hız iksiri çift hareket** | `speedBoostExtraUsed` boolean eklendi — her turda 2 hamle (iksir=1. hamle, sonraki hamle=2., sonra düşmana). Tüm aksiyon türleri (saldırı/büyü/savunma/kaçış) destekliyor. İki iksir üst üste gelir |
+| **Market ekipman karşılaştırması** | Aynı slotta takılı ekipman ile stat farkı (↑yeşil/↓kırmızı) gösteriliyor — mobil/tablet/PC |
+| **Market BG gösterimi** | Shop ekipman kartlarına Büyü Gücü (BG) satırı eklendi |
+| **Ayarlar modalı tam ekran** | Mobil/tablet'te tam sayfa kaydırılabilir; masaüstünde küçük pencere |
+| **v0.0.6 sürüm notu** | changelogData.ts'e v0.0.6 girişleri eklendi; HUD versiyon etiketi güncellendi |
 
 ---
 

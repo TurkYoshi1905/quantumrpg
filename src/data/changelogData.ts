@@ -22,6 +22,44 @@ export const CATEGORY_META: Record<ChangelogCategory, { label: string; color: st
 };
 
 export const changelog: ChangelogVersion[] = [
+  // ── v0.0.6 ───────────────────────────────────────────────────────────────────
+  {
+    version: 'v0.0.6',
+    date: '1 Temmuz 2026',
+    summary: 'Hız iksiri yeniden tasarlandı (çift hareket), market ekipman karşılaştırması, görsel iyileştirmeler.',
+    entries: [
+      {
+        id: 'v6e1',
+        category: 'düzeltme',
+        title: 'Hız İksiri — Gerçek Çift Hareket Mekaniği',
+        description: 'Hız iksiri artık her tur gerçek çift hareket imkânı veriyor. İksir kullanmak 1. hamle sayılır; ardından 1 ekstra hamle hakkı gelir; sonra düşman oynar; bu döngü speedBoostTurns süresi boyunca tekrarlanır. İki iksir kullanınca süreler üst üste gelir (ör. 3+3=6 tur çift hareket).',
+      },
+      {
+        id: 'v6e2',
+        category: 'yenilik',
+        title: 'Market — Ekipman Stat Karşılaştırması',
+        description: 'Market\'te her ekipman kartında, aynı slotta takılı mevcut ekipman ile stat karşılaştırması gösteriliyor. Yeşil ↑ artan, kırmızı ↓ azalan statları belirtiyor. Mobil, tablet ve PC\'de çalışıyor.',
+      },
+      {
+        id: 'v6e3',
+        category: 'geliştirme',
+        title: 'Market — Büyü Gücü (BG) Stat Gösterimi',
+        description: 'Ekipman kartlarında eksik olan Büyü Gücü (BG) stat satırı eklendi. Mor ✨ simgesiyle görüntüleniyor. Mana bonuslu yüzük ve kolyeler artık BG değerini de gösteriyor.',
+      },
+      {
+        id: 'v6e4',
+        category: 'geliştirme',
+        title: 'Üst Bar Can/Mana Yazı Boyutu Büyütüldü',
+        description: 'Mobil ve tablet\'te üst bardaki can ve mana sayıları text-[8px]\'den text-[10px]\'e yükseltildi. Bar genişliği de artırıldı.',
+      },
+      {
+        id: 'v6e5',
+        category: 'geliştirme',
+        title: 'Ayarlar Modalı — Mobil/Tablet Tam Ekran',
+        description: 'Ayarlar modalı artık mobil ve tablet\'te tam sayfa açılıyor; kaydırılabilir. Masaüstünde ise eski küçük pencere görünümü korunuyor.',
+      },
+    ],
+  },
   // ── v0.0.5 ───────────────────────────────────────────────────────────────────
   {
     version: 'v0.0.5',

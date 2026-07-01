@@ -92,6 +92,7 @@ export function makeFreshBattle() {
     enemyStunned: false,
     shieldPotionCharges: 0,
     speedBoostTurns: 0,
+    speedBoostExtraUsed: false,
     damageBoostTurns: 0,
   };
 }

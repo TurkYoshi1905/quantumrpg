@@ -167,6 +167,7 @@ export interface BattleState {
   enemyStunned: boolean;
   shieldPotionCharges: number;
   speedBoostTurns: number;
+  speedBoostExtraUsed: boolean;
   damageBoostTurns: number;
 }
 

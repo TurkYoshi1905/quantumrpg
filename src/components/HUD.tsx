@@ -174,15 +174,15 @@ export function HUD() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
-            onClick={() => setSettingsOpen(false)}
+            className={`fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm ${isMobile ? '' : 'flex items-center justify-center p-4'}`}
+            onClick={() => !isMobile && setSettingsOpen(false)}
           >
             <motion.div
-              initial={{ scale: 0.92, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.92, y: 20 }}
-              transition={{ duration: 0.18 }}
-              className="bg-card border border-border rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl"
+              initial={isMobile ? { y: '100%' } : { scale: 0.92, y: 20 }}
+              animate={isMobile ? { y: 0 } : { scale: 1, y: 0 }}
+              exit={isMobile ? { y: '100%' } : { scale: 0.92, y: 20 }}
+              transition={{ duration: 0.22 }}
+              className={`bg-card shadow-2xl overflow-y-auto ${isMobile ? 'w-full h-full border-0 rounded-none' : 'border border-border rounded-2xl w-full max-w-sm max-h-[90vh]'}`}
               onClick={e => e.stopPropagation()}
             >
               {/* Header */}
@@ -216,7 +216,7 @@ export function HUD() {
                     <div className="font-semibold text-sm text-white">Güncelleme Notları</div>
                     <div className="text-xs text-muted-foreground">Son sürüm değişiklikleri ve yenilikler</div>
                   </div>
-                  <div className="text-xs font-mono text-primary/60 shrink-0">v0.0.2</div>
+                  <div className="text-xs font-mono text-primary/60 shrink-0">v0.0.6</div>
                 </button>
 
                 {/* Separator */}
@@ -276,7 +276,7 @@ export function HUD() {
 
               {/* Footer */}
               <div className="px-5 py-3 border-t border-border text-center">
-                <span className="text-[10px] text-muted-foreground/40 font-mono">QuantumRPG · v0.0.2</span>
+                <span className="text-[10px] text-muted-foreground/40 font-mono">QuantumRPG · v0.0.6</span>
               </div>
             </motion.div>
           </motion.div>

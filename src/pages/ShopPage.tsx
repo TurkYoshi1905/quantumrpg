@@ -329,6 +329,40 @@ export default function ShopPage() {
                           {equip.statBonus.speed && <div className="flex items-center gap-1 text-yellow-400"><Zap size={10}/> +{equip.statBonus.speed} SPD</div>}
                           {equip.statBonus.spellPower && <div className="flex items-center gap-1 text-violet-400"><Sparkles size={10}/> +{equip.statBonus.spellPower} BG</div>}
                         </div>
+                        {/* Stat comparison with currently equipped item */}
+                        {(() => {
+                          const curId = state.player.equippedItems[equip.slot as keyof typeof state.player.equippedItems];
+                          if (!curId || curId === equip.id) return null;
+                          const curItem = equipment[curId];
+                          if (!curItem) return null;
+                          type StatKey = 'attack' | 'defense' | 'maxHp' | 'maxMana' | 'speed' | 'spellPower';
+                          const keys: Array<{ k: StatKey; lbl: string }> = [
+                            { k: 'attack', lbl: 'ATK' }, { k: 'defense', lbl: 'DEF' },
+                            { k: 'maxHp', lbl: 'HP' }, { k: 'maxMana', lbl: 'MP' },
+                            { k: 'speed', lbl: 'SPD' }, { k: 'spellPower', lbl: 'BG' },
+                          ];
+                          const diffs = keys.map(({ k, lbl }) => {
+                            const cur = (curItem.statBonus as Record<string, number>)[k] || 0;
+                            const nxt = (equip.statBonus as Record<string, number>)[k] || 0;
+                            return { k, lbl, d: nxt - cur, cur, nxt };
+                          }).filter(x => x.d !== 0);
+                          if (!diffs.length) return null;
+                          return (
+                            <div className="bg-black/20 rounded-lg px-2.5 py-2 border border-white/5 mb-3 text-[9px]">
+                              <div className="text-muted-foreground/50 mb-1 text-[8px] uppercase tracking-wide font-semibold">
+                                {curItem.emoji} {curItem.name} ile karşılaştır
+                              </div>
+                              <div className="flex flex-wrap gap-x-2.5 gap-y-0.5">
+                                {diffs.map(x => (
+                                  <span key={x.k} className={`flex items-center gap-0.5 font-mono ${x.d > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                    <span className="font-bold">{x.d > 0 ? `↑+${x.d}` : `↓${x.d}`} {x.lbl}</span>
+                                    <span className="text-white/30 ml-0.5">({x.cur}→{x.nxt})</span>
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          );
+                        })()}
                         {hasEquip ? (
                           <button disabled className="w-full py-2 bg-white/5 border border-white/10 text-muted-foreground rounded-lg font-bold text-xs cursor-not-allowed">
                             ✓ Satın Alındı

@@ -163,9 +163,16 @@ function gameReducer(state: GameState, action: Action): GameState {
       battle.enemyHp = Math.max(0, state.battle.enemyHp - finalDmg);
       battle.log.push(dmgMultiplier > 1 ? `${action.log} (Hasar İksiri: +%50 → ${finalDmg})` : action.log);
       if (state.battle.speedBoostTurns > 0) {
-        battle.speedBoostTurns = state.battle.speedBoostTurns - 1;
-        battle.phase = battle.enemyHp <= 0 ? 'victory' : 'player_turn';
-        if (battle.speedBoostTurns > 0) battle.log.push(`⚡ Hız İksiri aktif — tekrar senin sıran! (${battle.speedBoostTurns} tur kaldı)`);
+        if (state.battle.speedBoostExtraUsed) {
+          battle.speedBoostExtraUsed = false;
+          battle.speedBoostTurns = state.battle.speedBoostTurns - 1;
+          battle.phase = battle.enemyHp <= 0 ? 'victory' : 'enemy_turn';
+          if (battle.speedBoostTurns === 0) battle.log.push('⚡ Hız İksiri bitti.');
+        } else {
+          battle.speedBoostExtraUsed = true;
+          battle.phase = battle.enemyHp <= 0 ? 'victory' : 'player_turn';
+          if (battle.phase === 'player_turn') battle.log.push(`⚡ Hız İksiri aktif — tekrar senin sıran! (${battle.speedBoostTurns} tur kaldı)`);
+        }
       } else {
         battle.phase = battle.enemyHp <= 0 ? 'victory' : 'enemy_turn';
       }
@@ -191,9 +198,16 @@ function gameReducer(state: GameState, action: Action): GameState {
       }
       if (action.stunApplies) battle.enemyStunned = true;
       if (state.battle.speedBoostTurns > 0) {
-        battle.speedBoostTurns = state.battle.speedBoostTurns - 1;
-        battle.phase = battle.enemyHp <= 0 ? 'victory' : 'player_turn';
-        if (battle.speedBoostTurns > 0) battle.log.push(`⚡ Hız İksiri aktif — tekrar senin sıran! (${battle.speedBoostTurns} tur kaldı)`);
+        if (state.battle.speedBoostExtraUsed) {
+          battle.speedBoostExtraUsed = false;
+          battle.speedBoostTurns = state.battle.speedBoostTurns - 1;
+          battle.phase = battle.enemyHp <= 0 ? 'victory' : 'enemy_turn';
+          if (battle.speedBoostTurns === 0) battle.log.push('⚡ Hız İksiri bitti.');
+        } else {
+          battle.speedBoostExtraUsed = true;
+          battle.phase = battle.enemyHp <= 0 ? 'victory' : 'player_turn';
+          if (battle.phase === 'player_turn') battle.log.push(`⚡ Hız İksiri aktif — tekrar senin sıran! (${battle.speedBoostTurns} tur kaldı)`);
+        }
       } else {
         battle.phase = battle.enemyHp <= 0 ? 'victory' : 'enemy_turn';
       }
@@ -204,7 +218,20 @@ function gameReducer(state: GameState, action: Action): GameState {
       const battle = deepCloneBattle(state);
       battle.playerDefending = true;
       battle.log.push(action.log);
-      battle.phase = 'enemy_turn';
+      if (state.battle.speedBoostTurns > 0) {
+        if (state.battle.speedBoostExtraUsed) {
+          battle.speedBoostExtraUsed = false;
+          battle.speedBoostTurns = state.battle.speedBoostTurns - 1;
+          battle.phase = 'enemy_turn';
+          if (battle.speedBoostTurns === 0) battle.log.push('⚡ Hız İksiri bitti.');
+        } else {
+          battle.speedBoostExtraUsed = true;
+          battle.phase = 'player_turn';
+          battle.log.push(`⚡ Hız İksiri aktif — tekrar senin sıran! (${battle.speedBoostTurns} tur kaldı)`);
+        }
+      } else {
+        battle.phase = 'enemy_turn';
+      }
       return { ...state, battle };
     }
 
@@ -235,7 +262,19 @@ function gameReducer(state: GameState, action: Action): GameState {
         qs.weeklyProgress = updateQuestProgress(qs.weeklyProgress, 'escapes', 1);
         return { ...state, battle, player, questState: qs };
       } else {
-        battle.phase = 'enemy_turn';
+        if (state.battle.speedBoostTurns > 0) {
+          if (state.battle.speedBoostExtraUsed) {
+            battle.speedBoostExtraUsed = false;
+            battle.speedBoostTurns = state.battle.speedBoostTurns - 1;
+            battle.phase = 'enemy_turn';
+          } else {
+            battle.speedBoostExtraUsed = true;
+            battle.phase = 'player_turn';
+            battle.log.push(`⚡ Hız İksiri aktif — tekrar senin sıran! (${battle.speedBoostTurns} tur kaldı)`);
+          }
+        } else {
+          battle.phase = 'enemy_turn';
+        }
       }
       return { ...state, battle };
     }
@@ -459,8 +498,12 @@ function gameReducer(state: GameState, action: Action): GameState {
           battle.log.push(`${potion.emoji} ${potion.name} kullandın — ${potion.value} tur %50 fazla hasar!`);
           break;
       }
-      // Hız iksiri kullanıldığında oyuncuya ekstra tur ver (düşmana geçme)
-      battle.phase = potion.effect === 'speed_boost' ? 'player_turn' : 'enemy_turn';
+      if (potion.effect === 'speed_boost') {
+        battle.speedBoostExtraUsed = true;
+        battle.phase = 'player_turn';
+      } else {
+        battle.phase = 'enemy_turn';
+      }
       return { ...state, player, battle };
     }
 
