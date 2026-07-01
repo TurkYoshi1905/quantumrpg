@@ -119,7 +119,7 @@ export default function ShopPage() {
               <button
                 key={tab.key}
                 onClick={() => handleTabChange(tab.key)}
-                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg font-bold text-xs transition-all ${
+                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg font-bold text-xs md:text-sm transition-all ${
                   activeTab === tab.key
                     ? 'bg-primary/20 text-white border border-primary/30'
                     : 'text-muted-foreground hover:text-white'
@@ -174,32 +174,32 @@ export default function ShopPage() {
 
                 return (
                   <div key={potion.id} className="bg-card border border-border rounded-xl p-4 flex flex-col relative overflow-hidden hover:border-green-500/30 transition-all">
-                    <div className="absolute top-0 right-0 bg-black/40 border-b border-l border-white/10 px-2 py-0.5 text-[9px] font-mono rounded-bl-lg text-muted-foreground">
+                    <div className="absolute top-0 right-0 bg-black/40 border-b border-l border-white/10 px-2 py-0.5 text-[9px] md:text-[10px] font-mono rounded-bl-lg text-muted-foreground">
                       Maks {potion.maxStack}
                     </div>
                     <div className="flex items-center gap-3 mb-2">
-                      <div className="text-3xl bg-black/40 w-12 h-12 rounded-lg flex items-center justify-center border border-white/5 shrink-0">
+                      <div className="text-3xl md:text-4xl bg-black/40 w-12 h-12 md:w-14 md:h-14 rounded-lg flex items-center justify-center border border-white/5 shrink-0">
                         {potion.emoji}
                       </div>
                       <div className="min-w-0">
-                        <h3 className="font-bold text-sm leading-tight">{potion.name}</h3>
-                        <div className="text-[10px] text-muted-foreground font-mono mt-0.5">
+                        <h3 className="font-bold text-sm md:text-base leading-tight">{potion.name}</h3>
+                        <div className="text-[10px] md:text-xs text-muted-foreground font-mono mt-0.5">
                           Envanter: <span className="text-green-400 font-bold">{owned}/{potion.maxStack}</span>
                         </div>
                       </div>
                     </div>
 
-                    <p className="text-xs text-muted-foreground flex-1 mb-3 leading-relaxed">{potion.description}</p>
+                    <p className="text-xs md:text-sm text-muted-foreground flex-1 mb-3 leading-relaxed">{potion.description}</p>
 
                     {atMax ? (
-                      <button disabled className="w-full py-2 bg-white/5 border border-white/10 text-muted-foreground rounded-lg font-bold text-xs cursor-not-allowed">
+                      <button disabled className="w-full py-2 bg-white/5 border border-white/10 text-muted-foreground rounded-lg font-bold text-sm cursor-not-allowed">
                         Dolu (Max {potion.maxStack})
                       </button>
                     ) : (
                       <button
                         onClick={() => handleBuyPotion(potion.id)}
                         disabled={!canAfford}
-                        className={`w-full py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 transition-all ${
+                        className={`w-full py-2 rounded-lg font-bold text-sm flex items-center justify-center gap-1.5 transition-all ${
                           canAfford
                             ? 'bg-green-500/20 hover:bg-green-500/40 border border-green-500/50 text-white'
                             : 'bg-black/40 border border-border text-muted-foreground cursor-not-allowed'
@@ -226,16 +226,16 @@ export default function ShopPage() {
 
                 return (
                   <div key={spell.id} className="bg-card border border-border rounded-xl p-4 flex flex-col relative overflow-hidden hover:border-primary/30 transition-all">
-                    <div className="absolute top-0 right-0 bg-black/40 border-b border-l border-white/10 px-2 py-0.5 text-[9px] font-mono rounded-bl-lg text-muted-foreground">
+                    <div className="absolute top-0 right-0 bg-black/40 border-b border-l border-white/10 px-2 py-0.5 text-[9px] md:text-[10px] font-mono rounded-bl-lg text-muted-foreground">
                       Sv.{spell.unlockLevel}
                     </div>
                     <div className="flex items-center gap-3 mb-2">
-                      <div className="text-3xl bg-black/40 w-12 h-12 rounded-lg flex items-center justify-center border border-white/5 shrink-0">
+                      <div className="text-3xl md:text-4xl bg-black/40 w-12 h-12 md:w-14 md:h-14 rounded-lg flex items-center justify-center border border-white/5 shrink-0">
                         {spell.emoji}
                       </div>
                       <div className="min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                          <h3 className="font-bold text-sm leading-tight">{spell.name}</h3>
+                          <h3 className="font-bold text-sm md:text-base leading-tight">{spell.name}</h3>
                           {(() => {
                             const es = getElementStyle(spell.element);
                             return (
@@ -245,23 +245,23 @@ export default function ShopPage() {
                             );
                           })()}
                         </div>
-                        <div className="flex flex-wrap gap-1.5 text-[10px] font-mono mt-0.5">
+                        <div className="flex flex-wrap gap-1.5 text-[10px] md:text-xs font-mono mt-0.5">
                           {spell.damage > 0 && <span className="text-orange-400 flex items-center gap-0.5"><Sword size={10}/>{spell.damage}</span>}
                           {spell.healAmount && <span className="text-green-400 flex items-center gap-0.5"><Heart size={10}/>{spell.healAmount}</span>}
                           <span className="text-blue-400 flex items-center gap-0.5"><Zap size={10}/>{spell.manaCost}MP</span>
                         </div>
                       </div>
                     </div>
-                    <p className="text-xs text-muted-foreground flex-1 mb-3 leading-relaxed">{spell.description}</p>
+                    <p className="text-xs md:text-sm text-muted-foreground flex-1 mb-3 leading-relaxed">{spell.description}</p>
                     {hasSpell ? (
-                      <button disabled className="w-full py-2 bg-white/5 border border-white/10 text-muted-foreground rounded-lg font-bold text-xs cursor-not-allowed">
+                      <button disabled className="w-full py-2 bg-white/5 border border-white/10 text-muted-foreground rounded-lg font-bold text-sm cursor-not-allowed">
                         ✓ Öğrenildi
                       </button>
                     ) : (
                       <button
                         onClick={() => handleBuySpell(spell.id, spell.shopPrice!, spell.unlockLevel)}
                         disabled={!canBuy}
-                        className={`w-full py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 transition-all ${
+                        className={`w-full py-2 rounded-lg font-bold text-sm flex items-center justify-center gap-1.5 transition-all ${
                           canBuy
                             ? 'bg-primary/20 hover:bg-primary/40 border border-primary/50 text-white'
                             : 'bg-black/40 border border-border text-muted-foreground cursor-not-allowed'
@@ -305,23 +305,23 @@ export default function ShopPage() {
 
                     return (
                       <div key={equip.id} className="bg-card border border-border rounded-xl p-4 flex flex-col relative overflow-hidden hover:border-primary/30 transition-all">
-                        <div className="absolute top-0 right-0 bg-black/40 border-b border-l border-white/10 px-2 py-0.5 text-[9px] font-mono rounded-bl-lg text-muted-foreground">
+                        <div className="absolute top-0 right-0 bg-black/40 border-b border-l border-white/10 px-2 py-0.5 text-[9px] md:text-[10px] font-mono rounded-bl-lg text-muted-foreground">
                           Sv.{equip.requiredLevel}
                         </div>
                         <div className="flex items-center gap-3 mb-2">
-                          <div className="text-3xl bg-black/40 w-12 h-12 rounded-lg flex items-center justify-center border border-white/5 shrink-0">
+                          <div className="text-3xl md:text-4xl bg-black/40 w-12 h-12 md:w-14 md:h-14 rounded-lg flex items-center justify-center border border-white/5 shrink-0">
                             {equip.emoji}
                           </div>
                           <div className="min-w-0">
-                            <h3 className="font-bold text-sm leading-tight">{equip.name}</h3>
-                            <div className="flex items-center gap-1 text-[10px] text-muted-foreground mt-0.5">
+                            <h3 className="font-bold text-sm md:text-base leading-tight">{equip.name}</h3>
+                            <div className="flex items-center gap-1 text-[10px] md:text-xs text-muted-foreground mt-0.5">
                               {slotIcon[equip.slot]}
                               <span>{slotDisplayName[equip.slot] ?? equip.slot}</span>
                             </div>
                           </div>
                         </div>
-                        <p className="text-xs text-muted-foreground mb-2 leading-relaxed">{equip.description}</p>
-                        <div className="bg-black/30 rounded-lg px-3 py-2 border border-white/5 mb-3 flex-1 grid grid-cols-2 gap-1 text-[10px]">
+                        <p className="text-xs md:text-sm text-muted-foreground mb-2 leading-relaxed">{equip.description}</p>
+                        <div className="bg-black/30 rounded-lg px-3 py-2 border border-white/5 mb-3 flex-1 grid grid-cols-2 gap-1 text-[10px] md:text-xs">
                           {equip.statBonus.attack && <div className="flex items-center gap-1 text-orange-400"><Sword size={10}/> +{equip.statBonus.attack} ATK</div>}
                           {equip.statBonus.defense && <div className="flex items-center gap-1 text-blue-400"><Shield size={10}/> +{equip.statBonus.defense} DEF</div>}
                           {equip.statBonus.maxHp && <div className="flex items-center gap-1 text-green-400"><Heart size={10}/> +{equip.statBonus.maxHp} HP</div>}
@@ -348,8 +348,8 @@ export default function ShopPage() {
                           }).filter(x => x.d !== 0);
                           if (!diffs.length) return null;
                           return (
-                            <div className="bg-black/20 rounded-lg px-2.5 py-2 border border-white/5 mb-3 text-[9px]">
-                              <div className="text-muted-foreground/50 mb-1 text-[8px] uppercase tracking-wide font-semibold">
+                            <div className="bg-black/20 rounded-lg px-2.5 py-2 border border-white/5 mb-3 text-[9px] md:text-[10px]">
+                              <div className="text-muted-foreground/50 mb-1 text-[8px] md:text-[9px] uppercase tracking-wide font-semibold">
                                 {curItem.emoji} {curItem.name} ile karşılaştır
                               </div>
                               <div className="flex flex-wrap gap-x-2.5 gap-y-0.5">
@@ -364,14 +364,14 @@ export default function ShopPage() {
                           );
                         })()}
                         {hasEquip ? (
-                          <button disabled className="w-full py-2 bg-white/5 border border-white/10 text-muted-foreground rounded-lg font-bold text-xs cursor-not-allowed">
+                          <button disabled className="w-full py-2 bg-white/5 border border-white/10 text-muted-foreground rounded-lg font-bold text-sm cursor-not-allowed">
                             ✓ Satın Alındı
                           </button>
                         ) : (
                           <button
                             onClick={() => handleBuyEquip(equip.id)}
                             disabled={!canAfford || !levelReqMet}
-                            className={`w-full py-2 rounded-lg font-bold text-xs flex items-center justify-center gap-1.5 transition-all ${
+                            className={`w-full py-2 rounded-lg font-bold text-sm flex items-center justify-center gap-1.5 transition-all ${
                               canAfford && levelReqMet
                                 ? 'bg-primary/20 hover:bg-primary/40 border border-primary/50 text-white'
                                 : 'bg-black/40 border border-border text-muted-foreground cursor-not-allowed'

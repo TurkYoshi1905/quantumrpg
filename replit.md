@@ -119,6 +119,9 @@ artifacts/quantumrpg/src/
 | **Market BG gösterimi** | Shop ekipman kartlarına Büyü Gücü (BG) satırı eklendi |
 | **Ayarlar modalı tam ekran** | Mobil/tablet'te tam sayfa kaydırılabilir; masaüstünde küçük pencere |
 | **v0.0.6 sürüm notu** | changelogData.ts'e v0.0.6 girişleri eklendi; HUD versiyon etiketi güncellendi |
+| **Market metin büyütme** | Tüm sekmelerde ürün adı text-base, açıklama text-sm, butonlar text-sm, emoji büyütüldü |
+| **Karakter sayfası büyü slotu** | Büyü adı text-[13px], mana text-[11px] yapıldı; okunabilirlik arttı |
+| **PWA / Çevrimdışı oyun** | public/sw.js service worker, manifest.json, index.html kaydı eklendi; tarayıcıya kurulabilir ve internetsiz oynanabilir |
 
 ---
 
