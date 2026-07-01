@@ -109,6 +109,11 @@ artifacts/quantumrpg/src/
 | **HP/MP bar animasyonu** | `motion.div animate={{width}}` → CSS `transition: width` — artık sadece gerçek değer değişince oynar |
 | **Savaş HUD** | TurnIndicator, BuffBadges, HpBar, hit-flash efekti — premium yeniden tasarım |
 | **Karakter sayfası (PC)** | Başlıklar, stat değerleri, büyü slot etiketleri, tab butonları PC'de `md:` prefix ile büyütüldü |
+| **Hız iksiri kilit düzeltmesi** | `USE_POTION speed_boost` artık `player_turn` veriyor — düşmana geçmiyor, ekstra tur kazandırıyor |
+| **"2t" badge düzeltmesi** | Süre badge'lerinde `t` suffix → ` tur` (okunabilir) |
+| **HP/MP bar animasyonu** | `HpBar` BattlePage dışına taşındı (remount önlendi) → CSS `transition: 0.5s` artık gerçekten çalışıyor |
+| **Tablet landscape metin** | Savaş landscape layout: `text-[9px]` → `text-[11px]`, HP bar height büyütüldü, portrait HP metinleri `text-xs` |
+| **Ekipman — mana+büyügücü** | Mana bonusu olan ama spellPower içermeyen 5 yüzük/kolye'ye `spellPower` eklendi |
 
 ---
 

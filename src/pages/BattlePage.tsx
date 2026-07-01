@@ -269,7 +269,7 @@ export default function BattlePage() {
               shadow-[0_0_8px_rgba(250,204,21,0.4)]
               ${compact ? 'text-[10px] px-2 py-0.5' : 'text-xs px-2.5 py-1'}`}
           >
-            ⚡ {battle.speedBoostTurns}t
+            ⚡ {battle.speedBoostTurns} tur
           </motion.span>
         )}
         {battle.damageBoostTurns > 0 && (
@@ -283,7 +283,7 @@ export default function BattlePage() {
               shadow-[0_0_8px_rgba(249,115,22,0.4)]
               ${compact ? 'text-[10px] px-2 py-0.5' : 'text-xs px-2.5 py-1'}`}
           >
-            🔥 {battle.damageBoostTurns}t
+            🔥 {battle.damageBoostTurns} tur
           </motion.span>
         )}
       </AnimatePresence>
@@ -325,15 +325,7 @@ export default function BattlePage() {
     </div>
   );
 
-  // ── HP bar ───────────────────────────────────────────────────────────────────
-  const HpBar = ({ pct, colorClass }: { pct: number; colorClass: string }) => (
-    <div className="h-full w-full bg-white/10 rounded-full overflow-hidden">
-      <div
-        className={`h-full bg-gradient-to-r ${colorClass} rounded-full`}
-        style={{ width: `${Math.max(0, pct)}%`, transition: 'width 0.35s ease-out' }}
-      />
-    </div>
-  );
+  // HpBar is defined outside this component to prevent remounting on every render
 
   // ── Action panel ─────────────────────────────────────────────────────────────
   const renderActionPanel = (compact = false) => (
@@ -463,8 +455,8 @@ export default function BattlePage() {
         {endOverlay}
 
         {/* Top info bar */}
-        <div className="relative z-10 flex items-center justify-between px-3 h-9 border-b border-white/8 bg-black/50 backdrop-blur-sm shrink-0">
-          <div className="flex items-center gap-1.5 text-[10px] font-mono text-muted-foreground">
+        <div className="relative z-10 flex items-center justify-between px-3 h-10 border-b border-white/8 bg-black/50 backdrop-blur-sm shrink-0">
+          <div className="flex items-center gap-1.5 text-xs font-mono text-muted-foreground">
             <span className="text-white/40">TUR</span>
             <span className="text-white font-bold">{battle.turn}</span>
           </div>
@@ -486,13 +478,13 @@ export default function BattlePage() {
             >
               {enemy.emoji}
             </motion.div>
-            <h3 className={`font-bold text-center text-xs mb-1 ${enemy.isBoss ? 'text-red-400' : 'text-white'}`}>{enemy.name}</h3>
+            <h3 className={`font-bold text-center text-sm mb-1 ${enemy.isBoss ? 'text-red-400' : 'text-white'}`}>{enemy.name}</h3>
             <EnemyStatusBadges compact />
             <div className="w-full px-3 mt-1.5">
-              <div className="h-2 rounded-full overflow-hidden bg-white/8 shadow-inner">
+              <div className="h-2.5 rounded-full overflow-hidden bg-white/8 shadow-inner">
                 <HpBar pct={enemyHpPercent} colorClass={enemyHpBarColor} />
               </div>
-              <div className="text-[9px] font-mono text-center text-muted-foreground mt-0.5">{battle.enemyHp}/{enemy.stats.maxHp}</div>
+              <div className="text-[11px] font-mono text-center text-muted-foreground mt-0.5">{battle.enemyHp}/{enemy.stats.maxHp}</div>
             </div>
           </div>
 
@@ -501,25 +493,25 @@ export default function BattlePage() {
             {/* Player stats */}
             <div className="space-y-1 shrink-0">
               <div className="flex items-center gap-1.5">
-                <Heart size={9} className="text-rose-400 shrink-0" />
-                <div className={`flex-1 h-2 rounded-full overflow-hidden bg-rose-900/40 ${hitFlash === 'player' ? 'ring-1 ring-rose-400' : ''}`}>
+                <Heart size={10} className="text-rose-400 shrink-0" />
+                <div className={`flex-1 h-2.5 rounded-full overflow-hidden bg-rose-900/40 ${hitFlash === 'player' ? 'ring-1 ring-rose-400' : ''}`}>
                   <HpBar pct={playerHpPercent} colorClass="from-rose-600 to-red-500" />
                 </div>
-                <span className="text-[9px] font-mono text-rose-400 w-14 text-right">{battle.playerHp}/{player.stats.maxHp}</span>
+                <span className="text-[11px] font-mono text-rose-400 w-16 text-right">{battle.playerHp}/{player.stats.maxHp}</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <Zap size={9} className="text-blue-400 shrink-0" />
-                <div className="flex-1 h-2 rounded-full overflow-hidden bg-blue-900/40">
+                <Zap size={10} className="text-blue-400 shrink-0" />
+                <div className="flex-1 h-2.5 rounded-full overflow-hidden bg-blue-900/40">
                   <HpBar pct={playerManaPercent} colorClass="from-blue-600 to-blue-400" />
                 </div>
-                <span className="text-[9px] font-mono text-blue-400 w-14 text-right">{battle.playerMana}/{player.stats.maxMana}</span>
+                <span className="text-[11px] font-mono text-blue-400 w-16 text-right">{battle.playerMana}/{player.stats.maxMana}</span>
               </div>
             </div>
 
             {/* Battle log */}
-            <div className="bg-black/30 border border-white/8 rounded-lg px-2 py-1 shrink-0 overflow-hidden" style={{ maxHeight: '38px' }}>
+            <div className="bg-black/30 border border-white/8 rounded-lg px-2 py-1 shrink-0 overflow-hidden" style={{ maxHeight: '42px' }}>
               {battle.log.slice(-2).map((line, i) => (
-                <p key={i} className="text-[9px] text-muted-foreground truncate leading-tight">{line}</p>
+                <p key={i} className="text-[11px] text-muted-foreground truncate leading-tight">{line}</p>
               ))}
             </div>
 
@@ -569,7 +561,7 @@ export default function BattlePage() {
               <div className="h-2.5 w-full rounded-full overflow-hidden bg-white/8 mt-1.5 shadow-inner">
                 <HpBar pct={enemyHpPercent} colorClass={enemyHpBarColor} />
               </div>
-              <div className="text-[9px] font-mono text-muted-foreground mt-0.5">{battle.enemyHp}/{enemy.stats.maxHp} HP</div>
+              <div className="text-xs font-mono text-muted-foreground mt-0.5">{battle.enemyHp}/{enemy.stats.maxHp} HP</div>
             </div>
           </div>
 
@@ -577,27 +569,27 @@ export default function BattlePage() {
           <div className={`border rounded-xl p-2.5 space-y-1.5 shrink-0 transition-all
             ${hitFlash === 'player' ? 'bg-rose-900/20 border-rose-500/40' : 'bg-black/30 border-white/8'}`}>
             <div className="flex items-center gap-2">
-              <Heart size={11} className="text-rose-400 shrink-0" />
-              <div className="flex-1 h-2 bg-rose-900/40 rounded-full overflow-hidden">
+              <Heart size={12} className="text-rose-400 shrink-0" />
+              <div className="flex-1 h-2.5 bg-rose-900/40 rounded-full overflow-hidden">
                 <HpBar pct={playerHpPercent} colorClass="from-rose-600 to-red-500" />
               </div>
-              <span className="text-[10px] font-mono text-rose-400 w-16 text-right">{battle.playerHp}/{player.stats.maxHp}</span>
+              <span className="text-xs font-mono text-rose-400 w-16 text-right">{battle.playerHp}/{player.stats.maxHp}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Zap size={11} className="text-blue-400 shrink-0" />
-              <div className="flex-1 h-2 bg-blue-900/40 rounded-full overflow-hidden">
+              <Zap size={12} className="text-blue-400 shrink-0" />
+              <div className="flex-1 h-2.5 bg-blue-900/40 rounded-full overflow-hidden">
                 <HpBar pct={playerManaPercent} colorClass="from-blue-600 to-blue-400" />
               </div>
-              <span className="text-[10px] font-mono text-blue-400 w-16 text-right">{battle.playerMana}/{player.stats.maxMana}</span>
+              <span className="text-xs font-mono text-blue-400 w-16 text-right">{battle.playerMana}/{player.stats.maxMana}</span>
             </div>
           </div>
 
           {/* Battle log */}
           <div className="bg-black/30 border border-white/8 rounded-lg px-2.5 py-1.5 shrink-0">
             {battle.log.slice(-2).map((line, i) => (
-              <p key={i} className="text-[10px] text-muted-foreground leading-snug">{line}</p>
+              <p key={i} className="text-xs text-muted-foreground leading-snug">{line}</p>
             ))}
-            {battle.log.length === 0 && <p className="text-[10px] text-muted-foreground/40">Savaş başlıyor...</p>}
+            {battle.log.length === 0 && <p className="text-xs text-muted-foreground/40">Savaş başlıyor...</p>}
           </div>
 
           {/* Action panel */}
@@ -684,6 +676,18 @@ export default function BattlePage() {
           {renderActionPanel(false)}
         </div>
       </div>
+    </div>
+  );
+}
+
+// ── HP Bar component (MUST be outside BattlePage to prevent remount on every render) ──
+function HpBar({ pct, colorClass }: { pct: number; colorClass: string }) {
+  return (
+    <div className="h-full w-full bg-white/10 rounded-full overflow-hidden">
+      <div
+        className={`h-full bg-gradient-to-r ${colorClass} rounded-full`}
+        style={{ width: `${Math.max(0, pct)}%`, transition: 'width 0.5s ease-out' }}
+      />
     </div>
   );
 }

@@ -459,7 +459,8 @@ function gameReducer(state: GameState, action: Action): GameState {
           battle.log.push(`${potion.emoji} ${potion.name} kullandın — ${potion.value} tur %50 fazla hasar!`);
           break;
       }
-      battle.phase = 'enemy_turn';
+      // Hız iksiri kullanıldığında oyuncuya ekstra tur ver (düşmana geçme)
+      battle.phase = potion.effect === 'speed_boost' ? 'player_turn' : 'enemy_turn';
       return { ...state, player, battle };
     }
 
