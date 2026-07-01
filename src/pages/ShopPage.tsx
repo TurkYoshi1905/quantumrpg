@@ -7,7 +7,7 @@ import { HUD } from '../components/HUD';
 import { getElementStyle } from '../utils/elementStyles';
 import {
   Shield, Sword, Heart, Zap, Coins, FlaskConical,
-  Gem, Link2, LayoutGrid
+  Gem, Link2, LayoutGrid, Sparkles
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -327,6 +327,7 @@ export default function ShopPage() {
                           {equip.statBonus.maxHp && <div className="flex items-center gap-1 text-green-400"><Heart size={10}/> +{equip.statBonus.maxHp} HP</div>}
                           {equip.statBonus.maxMana && <div className="flex items-center gap-1 text-purple-400"><Zap size={10}/> +{equip.statBonus.maxMana} MP</div>}
                           {equip.statBonus.speed && <div className="flex items-center gap-1 text-yellow-400"><Zap size={10}/> +{equip.statBonus.speed} SPD</div>}
+                          {equip.statBonus.spellPower && <div className="flex items-center gap-1 text-violet-400"><Sparkles size={10}/> +{equip.statBonus.spellPower} BG</div>}
                         </div>
                         {hasEquip ? (
                           <button disabled className="w-full py-2 bg-white/5 border border-white/10 text-muted-foreground rounded-lg font-bold text-xs cursor-not-allowed">

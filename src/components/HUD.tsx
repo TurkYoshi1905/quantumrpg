@@ -76,23 +76,23 @@ export function HUD() {
           </div>
 
           <div className={`flex flex-col gap-1 ml-1.5 ${isMobile ? '' : 'hidden md:flex'}`}>
-            <div className={`flex items-center gap-1 ${isMobile ? 'w-28' : 'w-44 gap-1.5'}`}>
-              <Heart size={isMobile ? 9 : 12} className="text-destructive shrink-0" />
+            <div className={`flex items-center gap-1 ${isMobile ? 'w-32' : 'w-44 gap-1.5'}`}>
+              <Heart size={isMobile ? 10 : 12} className="text-destructive shrink-0" />
               <div className={`flex-1 bg-destructive/20 rounded-full overflow-hidden ${isMobile ? 'h-1.5' : 'h-2'}`}>
                 <div className="h-full bg-destructive rounded-full"
                   style={{ width: `${Math.min(100, player.stats.maxHp > 0 ? (player.stats.hp / player.stats.maxHp) * 100 : 0)}%`, transition: 'width 0.3s ease-out' }} />
               </div>
-              <span className={`text-destructive text-right font-mono shrink-0 ${isMobile ? 'text-[8px] w-9' : 'text-xs w-14'}`}>
+              <span className={`text-destructive text-right font-mono shrink-0 ${isMobile ? 'text-[10px] w-12' : 'text-xs w-14'}`}>
                 {player.stats.hp}/{player.stats.maxHp}
               </span>
             </div>
-            <div className={`flex items-center gap-1 ${isMobile ? 'w-28' : 'w-44 gap-1.5'}`}>
-              <Zap size={isMobile ? 9 : 12} className="text-blue-500 shrink-0" />
+            <div className={`flex items-center gap-1 ${isMobile ? 'w-32' : 'w-44 gap-1.5'}`}>
+              <Zap size={isMobile ? 10 : 12} className="text-blue-500 shrink-0" />
               <div className={`flex-1 bg-blue-500/20 rounded-full overflow-hidden ${isMobile ? 'h-1.5' : 'h-2'}`}>
                 <div className="h-full bg-blue-500 rounded-full"
                   style={{ width: `${Math.min(100, player.stats.maxMana > 0 ? (player.stats.mana / player.stats.maxMana) * 100 : 0)}%`, transition: 'width 0.3s ease-out' }} />
               </div>
-              <span className={`text-blue-500 text-right font-mono shrink-0 ${isMobile ? 'text-[8px] w-9' : 'text-xs w-14'}`}>
+              <span className={`text-blue-500 text-right font-mono shrink-0 ${isMobile ? 'text-[10px] w-12' : 'text-xs w-14'}`}>
                 {player.stats.mana}/{player.stats.maxMana}
               </span>
             </div>
