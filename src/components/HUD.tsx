@@ -216,7 +216,7 @@ export function HUD() {
                     <div className="font-semibold text-sm text-white">Güncelleme Notları</div>
                     <div className="text-xs text-muted-foreground">Son sürüm değişiklikleri ve yenilikler</div>
                   </div>
-                  <div className="text-xs font-mono text-primary/60 shrink-0">v0.0.6</div>
+                  <div className="text-xs font-mono text-primary/60 shrink-0">v0.0.7</div>
                 </button>
 
                 {/* Separator */}
@@ -276,7 +276,7 @@ export function HUD() {
 
               {/* Footer */}
               <div className="px-5 py-3 border-t border-border text-center">
-                <span className="text-[10px] text-muted-foreground/40 font-mono">QuantumRPG · v0.0.6</span>
+                <span className="text-[10px] text-muted-foreground/40 font-mono">QuantumRPG · v0.0.7</span>
               </div>
             </motion.div>
           </motion.div>

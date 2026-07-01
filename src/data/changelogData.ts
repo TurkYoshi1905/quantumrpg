@@ -22,6 +22,38 @@ export const CATEGORY_META: Record<ChangelogCategory, { label: string; color: st
 };
 
 export const changelog: ChangelogVersion[] = [
+  // ── v0.0.7 ───────────────────────────────────────────────────────────────────
+  {
+    version: 'v0.0.7',
+    date: '1 Temmuz 2026',
+    summary: 'Prestij sistemi, hız iksiri kitlenme düzeltmesi ve PWA çevrimdışı destek.',
+    entries: [
+      {
+        id: 'v7e1',
+        category: 'yenilik',
+        title: 'Prestij Sistemi — Seviye 100 Sonrası',
+        description: 'Seviye 100\'e ulaşan oyuncular "Prestij Yap" yapabilir. Prestij öncesinde ne kaybolacağı, ne kalacağı ve kazanılacak kalıcı bonuslar modal ile gösterilir. Korunanlar: Altın, ekipman, büyüler, iksirler. Sıfırlananlar: Seviye (→1), XP, bölge açılışları. Kalıcı bonus her prestijiyde: +5 ATK, +5 DEF, +30 HP, +20 MP, +3 Büyü Gücü. Prestij sayısı ve birikimli bonuslar Karakter sayfasında görüntülenir.',
+      },
+      {
+        id: 'v7e2',
+        category: 'düzeltme',
+        title: 'Hız İksiri — Buton Kilitleme Düzeltildi',
+        description: 'Hız iksiri kullanıldığında oyun kilitlenip butonlar çalışmıyordu. Kök neden: speed_boost iksiri faz\'ı player_turn\'de bırakıyor, useEffect sadece faz DEĞİŞİNCE tetikleniyor, dolayısıyla isActing.current sıfırlanmıyordu. Artık speed_boost sonrası kilit manuel sıfırlanıyor.',
+      },
+      {
+        id: 'v7e3',
+        category: 'teknik',
+        title: 'PWA — Çevrimdışı Oyun Desteği',
+        description: 'manifest.json ve sw.js (service worker) eklendi. Oyun artık tarayıcıya kurulabilir (PWA) ve internet bağlantısı olmadan da oynanabilir. Cache-first stratejisi: önce önbellek, yoksa ağ; yeni sürüm gelince eski cache temizlenir.',
+      },
+      {
+        id: 'v7e4',
+        category: 'geliştirme',
+        title: 'Market & Karakter Sayfası PC Okunabilirliği',
+        description: 'Ekipman stat bonusları text-xs md:text-sm, büyü stats text-xs md:text-sm yapıldı. Karakter büyü slotlarında büyü adı text-[11px] md:text-sm, mana text-[10px] md:text-xs oldu. Masaüstünde çok daha net okunabilir.',
+      },
+    ],
+  },
   // ── v0.0.6 ───────────────────────────────────────────────────────────────────
   {
     version: 'v0.0.6',

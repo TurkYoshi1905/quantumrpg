@@ -142,6 +142,13 @@ export default function BattlePage() {
     isActing.current = true;
     dispatch({ type: 'USE_POTION', potionId });
     setPanel('main');
+    // Hız iksiri faz'ı player_turn'de bırakır — useEffect faz değişmediğinden
+    // tetiklenmez, dolayısıyla isActing.current sıfırlanmaz ve butonlar kilitlenir.
+    // Burada manuel sıfırlıyoruz:
+    const potion = potions[potionId];
+    if (potion?.effect === 'speed_boost') {
+      isActing.current = false;
+    }
   };
 
   const handleDefend = () => {

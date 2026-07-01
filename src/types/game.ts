@@ -128,6 +128,14 @@ export interface QuestState {
   lastWeeklyReset: number;
 }
 
+export interface PrestigeBonus {
+  attack: number;
+  defense: number;
+  maxHp: number;
+  maxMana: number;
+  spellPower: number;
+}
+
 export interface PlayerState {
   name: string;
   level: number;
@@ -148,6 +156,8 @@ export interface PlayerState {
   totalKills: number;
   totalEscapes: number;
   strongestEnemy: { name: string; emoji: string; level: number } | null;
+  prestigeCount?: number;
+  prestigeBonus?: PrestigeBonus;
 }
 
 export interface BattleState {

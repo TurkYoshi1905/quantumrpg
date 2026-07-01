@@ -100,7 +100,19 @@ artifacts/quantumrpg/src/
 
 ---
 
-## Yapılan Değişiklikler (Son Sürüm)
+## Yapılan Değişiklikler (v0.0.7)
+
+| Alan | Değişiklik |
+|------|-----------|
+| **Prestij Sistemi** | Seviye 100'de "Prestij Yap" butonu açılır; modal ile bilgi gösterilir; sıfırlananlar (lv, xp, bölgeler) ve korunanlar (altın, ekipman, büyüler, iksirler) listelenir; kalıcı bonus: +5 ATK, +5 DEF, +30 HP, +20 MP, +3 BG — her prestijiyde birikir; `recalculateStats` her hesaplamaya dahil eder |
+| **Hız İksiri Düzeltmesi** | `speed_boost` sonrası `isActing.current` manuel sıfırlanıyor — buton kilitleme hatası giderildi |
+| **PWA Çevrimdışı** | `public/manifest.json` ve `public/sw.js` oluşturuldu; cache-first strateji; CACHE_NAME `quantumrpg-v2` |
+| **HUD Versiyon** | `v0.0.6` → `v0.0.7` |
+| **v0.0.7 Changelog** | `changelogData.ts`'e 4 yeni giriş eklendi |
+
+---
+
+## Yapılan Değişiklikler (v0.0.6)
 
 | Alan | Değişiklik |
 |------|-----------|

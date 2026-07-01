@@ -1,4 +1,4 @@
-import { PlayerState, GameState, Stats, QuestState } from '../types/game';
+import { PlayerState, GameState, Stats, QuestState, PrestigeBonus } from '../types/game';
 import { equipment } from '../data/equipment';
 import { getDailyQuestIds, getWeeklyQuestIds, getDailyResetTimestamp, getWeeklyResetTimestamp } from '../data/questData';
 
@@ -19,6 +19,9 @@ export const MILESTONE_COINS: Record<number, number> = {
   10: 500, 20: 1000, 30: 1500, 40: 2000, 50: 3000,
   60: 4000, 70: 5000, 80: 7500, 90: 10000, 100: 20000,
 };
+
+export const PRESTIGE_BONUS_PER: PrestigeBonus = { attack: 5, defense: 5, maxHp: 30, maxMana: 20, spellPower: 3 };
+export const EMPTY_PRESTIGE: PrestigeBonus = { attack: 0, defense: 0, maxHp: 0, maxMana: 0, spellPower: 0 };
 
 export const INITIAL_PLAYER: PlayerState = {
   name: 'Gezgin',
@@ -48,6 +51,8 @@ export const INITIAL_PLAYER: PlayerState = {
   totalKills: 0,
   totalEscapes: 0,
   strongestEnemy: null,
+  prestigeCount: 0,
+  prestigeBonus: { ...EMPTY_PRESTIGE },
 };
 
 export function makeFreshPlayer(): PlayerState {
@@ -71,6 +76,8 @@ export function makeFreshPlayer(): PlayerState {
     totalKills: 0,
     totalEscapes: 0,
     strongestEnemy: null,
+    prestigeCount: 0,
+    prestigeBonus: { ...EMPTY_PRESTIGE },
   };
 }
 
@@ -118,6 +125,14 @@ export function recalculateStats(player: PlayerState): Stats {
       if (bonus.spellPower) stats.spellPower = (stats.spellPower ?? 10) + bonus.spellPower;
     }
   });
+  const pb = player.prestigeBonus;
+  if (pb) {
+    stats.attack += pb.attack || 0;
+    stats.defense += pb.defense || 0;
+    stats.maxHp += pb.maxHp || 0;
+    stats.maxMana += pb.maxMana || 0;
+    stats.spellPower = (stats.spellPower ?? 10) + (pb.spellPower || 0);
+  }
   if (stats.hp > stats.maxHp) stats.hp = stats.maxHp;
   if (stats.mana > stats.maxMana) stats.mana = stats.maxMana;
   return stats;

@@ -1,0 +1,18 @@
+{
+  "name": "QuantumRPG",
+  "short_name": "QuantumRPG",
+  "description": "Karanlık bir kuantum evreninde geçen tek oyunculu, sıra tabanlı 2D web RPG oyunu.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#06060f",
+  "theme_color": "#7c3aed",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

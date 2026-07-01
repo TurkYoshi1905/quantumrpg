@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useEffect, ReactNode } from 'react';
 import { GameState, Enemy, Spell, RegionId, EquipmentSlot, QuestProgress } from '../types/game';
-import { INITIAL_STATE, makeFreshPlayer, makeFreshBattle, makeFreshQuestState, recalculateStats, MILESTONE_COINS } from './constants';
+import { INITIAL_STATE, makeFreshPlayer, makeFreshBattle, makeFreshQuestState, recalculateStats, MILESTONE_COINS, PRESTIGE_BONUS_PER, EMPTY_PRESTIGE } from './constants';
 import { regions } from '../data/regions';
 import { equipment } from '../data/equipment';
 import { spells } from '../data/spells';
@@ -42,7 +42,8 @@ type Action =
   | { type: 'EQUIP_SPELL'; spellId: string }
   | { type: 'UNEQUIP_SPELL_AT'; index: number }
   | { type: 'SWAP_EQUIPPED_SPELLS'; indexA: number; indexB: number }
-  | { type: 'EQUIP_SPELL_AT'; spellId: string; index: number };
+  | { type: 'EQUIP_SPELL_AT'; spellId: string; index: number }
+  | { type: 'PRESTIGE' };
 
 function deepClonePlayer(state: GameState): GameState['player'] {
   return {
@@ -57,6 +58,7 @@ function deepClonePlayer(state: GameState): GameState['player'] {
     defeatedEnemies: { ...state.player.defeatedEnemies },
     unlockedRegions: [...state.player.unlockedRegions],
     strongestEnemy: state.player.strongestEnemy ? { ...state.player.strongestEnemy } : null,
+    prestigeBonus: state.player.prestigeBonus ? { ...state.player.prestigeBonus } : { ...EMPTY_PRESTIGE },
   };
 }
 
@@ -592,6 +594,30 @@ function gameReducer(state: GameState, action: Action): GameState {
       } else if (player.equippedSpells.length < MAX_EQUIPPED_SPELLS) {
         player.equippedSpells.push(action.spellId);
       }
+      return { ...state, player };
+    }
+
+    case 'PRESTIGE': {
+      if (state.player.level < 100) return state;
+      const player = deepClonePlayer(state);
+      const currentCount = player.prestigeCount || 0;
+      const newBonus = {
+        attack:     (player.prestigeBonus?.attack     || 0) + PRESTIGE_BONUS_PER.attack,
+        defense:    (player.prestigeBonus?.defense    || 0) + PRESTIGE_BONUS_PER.defense,
+        maxHp:      (player.prestigeBonus?.maxHp      || 0) + PRESTIGE_BONUS_PER.maxHp,
+        maxMana:    (player.prestigeBonus?.maxMana     || 0) + PRESTIGE_BONUS_PER.maxMana,
+        spellPower: (player.prestigeBonus?.spellPower  || 0) + PRESTIGE_BONUS_PER.spellPower,
+      };
+      player.prestigeCount = currentCount + 1;
+      player.prestigeBonus = newBonus;
+      player.level = 1;
+      player.xp = 0;
+      player.xpToNextLevel = 100;
+      player.baseStats = { hp: 100, maxHp: 100, mana: 60, maxMana: 60, attack: 15, defense: 8, speed: 10, spellPower: 10 };
+      player.unlockedRegions = ['orman'];
+      player.stats = recalculateStats(player);
+      player.stats.hp = player.stats.maxHp;
+      player.stats.mana = player.stats.maxMana;
       return { ...state, player };
     }
 

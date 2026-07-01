@@ -3,8 +3,10 @@ import { useGameState } from '../hooks/useGameState';
 import { equipment } from '../data/equipment';
 import { spells } from '../data/spells';
 import { HUD } from '../components/HUD';
-import { Shield, Sword, Heart, Zap, Award, Skull, Trophy, Target, Wind, Star, Plus, X } from 'lucide-react';
+import { PrestigeModal } from '../components/PrestigeModal';
+import { Shield, Sword, Heart, Zap, Award, Skull, Trophy, Target, Wind, Star, Plus, X, Sparkles } from 'lucide-react';
 import { EquipmentSlot, getPlayerTitle, PLAYER_TITLES } from '../types/game';
+import { PRESTIGE_BONUS_PER } from '../store/constants';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type CharTab = 'spells' | 'equipment' | 'inventory';
@@ -14,6 +16,7 @@ export default function CharacterPage() {
   const { player } = state;
   const [activeTab, setActiveTab] = useState<CharTab>('spells');
   const [selectedSlotIdx, setSelectedSlotIdx] = useState<number | null>(null);
+  const [showPrestigeModal, setShowPrestigeModal] = useState(false);
 
   const titleInfo = getPlayerTitle(player.level);
   const xpPercent = player.xpToNextLevel > 0 ? (player.xp / player.xpToNextLevel) * 100 : 100;
@@ -66,6 +69,7 @@ export default function CharacterPage() {
   ];
 
   return (
+    <>
     <div className="min-h-screen bg-background pt-14 md:pt-20 pb-8 px-3 md:px-6">
       <HUD />
 
@@ -163,6 +167,50 @@ export default function CharacterPage() {
               <StatRow icon={<span className="text-[15px]">✨</span>}          label="Büyü Gücü" value={player.stats.spellPower ?? 10} base={player.baseStats.spellPower ?? 10} />
             </div>
           </div>
+
+          {/* Prestige Card */}
+          {(player.level >= 100 || (player.prestigeCount ?? 0) > 0) && (
+            <div className="bg-card border border-violet-500/30 rounded-2xl p-5 shadow-[0_0_24px_rgba(139,92,246,0.12)]">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-bold text-base md:text-lg flex items-center gap-2">
+                  <Sparkles size={18} className="text-violet-400" /> Prestij
+                </h3>
+                {(player.prestigeCount ?? 0) > 0 && (
+                  <div className="text-sm font-mono font-bold text-violet-300 bg-violet-500/15 border border-violet-500/30 px-3 py-1 rounded-full">
+                    ×{player.prestigeCount}
+                  </div>
+                )}
+              </div>
+
+              {(player.prestigeCount ?? 0) > 0 && (
+                <div className="mb-4 grid grid-cols-2 gap-1.5">
+                  {[
+                    { label: 'Saldırı', val: player.prestigeBonus?.attack ?? 0, color: 'text-orange-400' },
+                    { label: 'Savunma', val: player.prestigeBonus?.defense ?? 0, color: 'text-blue-400' },
+                    { label: 'Sağlık', val: player.prestigeBonus?.maxHp ?? 0, color: 'text-green-400' },
+                    { label: 'Mana', val: player.prestigeBonus?.maxMana ?? 0, color: 'text-purple-400' },
+                    { label: 'Büyü Gücü', val: player.prestigeBonus?.spellPower ?? 0, color: 'text-violet-400' },
+                  ].map(r => (
+                    <div key={r.label} className="flex items-center justify-between bg-black/30 border border-white/5 rounded-lg px-2.5 py-1.5">
+                      <span className="text-xs text-muted-foreground">{r.label}</span>
+                      <span className={`text-xs font-mono font-bold ${r.color}`}>+{r.val}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {player.level >= 100 && (
+                <button
+                  onClick={() => setShowPrestigeModal(true)}
+                  className="w-full py-3 rounded-xl border border-violet-500/40 bg-violet-500/10 hover:bg-violet-500/25 text-violet-200 font-bold text-sm transition-all shadow-[0_0_16px_rgba(139,92,246,0.15)] flex items-center justify-center gap-2"
+                >
+                  <span>⭐</span>
+                  Prestij Yap #{(player.prestigeCount ?? 0) + 1}
+                  <span className="text-xs text-violet-400 font-normal">+{PRESTIGE_BONUS_PER.attack} ATK, +{PRESTIGE_BONUS_PER.maxHp} HP...</span>
+                </button>
+              )}
+            </div>
+          )}
 
           {/* Battle Stats */}
           <div className="bg-card border border-border rounded-2xl p-5">
@@ -440,6 +488,9 @@ export default function CharacterPage() {
         </div>
       </div>
     </div>
+
+    {showPrestigeModal && <PrestigeModal onClose={() => setShowPrestigeModal(false)} />}
+    </>
   );
 }
 
